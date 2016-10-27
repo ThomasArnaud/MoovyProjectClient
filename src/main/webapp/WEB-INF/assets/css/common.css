@@ -1,0 +1,33 @@
+/**
+ * Vars
+ */
+/**
+ * Margin utilities
+ */
+@media (max-width: 767px) {
+  .margin-top-10-sm {
+    margin-top: 10px;
+  }
+}
+/**
+ * AdminLTE hacks
+ */
+.skin-black-light .treeview-menu > li > a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+  height: auto;
+}
+.info-box-icon a i {
+  color: white;
+}
+.info-box-icon a:hover i {
+  color: #f4f4f5;
+}
+/**
+ * Table utilies
+ */
+td.column-icons {
+  text-align: center;
+}
