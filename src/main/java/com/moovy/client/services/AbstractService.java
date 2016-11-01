@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
  * @author Bruno Buiret (bruno.buiret@etu.univ-lyon1.fr)
  * @author Alexis Rabilloud (alexis.rabilloud@etu.univ-lyon1.fr)
  */
-public abstract class AbstractWebservice
+public abstract class AbstractService
 {
     /**
      * The webservices' host.
@@ -20,17 +20,20 @@ public abstract class AbstractWebservice
     /**
      *
      */
-    protected static Client client;
+    private static Client client;
 
     /**
      *
      */
-    protected static WebTarget target;
+    private static WebTarget target;
 
+    /*
+     * @see http://stackoverflow.com/questions/17366266/jax-rs-2-0-change-default-implementation
+     */
     static
     {
-        AbstractWebservice.client = ClientBuilder.newClient();
-        AbstractWebservice.target = client.target(AbstractWebservice.HOST);
+        AbstractService.client = ClientBuilder.newClient();
+        AbstractService.target = client.target(AbstractService.HOST);
     }
 
     /**
@@ -40,7 +43,7 @@ public abstract class AbstractWebservice
      */
     protected String doGet(String path)
     {
-        return AbstractWebservice.target
+        return AbstractService.target
             .path(path)
             .request()
             .accept(MediaType.APPLICATION_JSON)

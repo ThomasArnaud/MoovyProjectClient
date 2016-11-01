@@ -1,16 +1,12 @@
 package com.moovy.client.controllers;
 
-import com.moovy.client.entities.Actor;
+import com.moovy.client.services.ActorsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -30,39 +26,9 @@ public class ActorsController extends AbstractController
     {
         // Set up some fake data
         ModelMap model = new ModelMap();
-        List<Actor> actorsList = new ArrayList<>();
-        Actor fakeActor = null;
-        Calendar calendar = Calendar.getInstance();
+        ActorsService actorsService = new ActorsService();
 
-        fakeActor = new Actor();
-        fakeActor.setId(1);
-        fakeActor.setFirstName("Jeremy");
-        fakeActor.setLastName("Renner");
-        calendar.set(1971, 0, 7);
-        fakeActor.setBirthDate(calendar.getTime());
-        fakeActor.setDeathDate(null);
-        actorsList.add(fakeActor);
-
-        fakeActor = new Actor();
-        fakeActor.setId(2);
-        fakeActor.setFirstName("Louis");
-        fakeActor.setLastName("De Funès");
-        calendar.set(1914, 6, 31);
-        fakeActor.setBirthDate(calendar.getTime());
-        calendar.set(1983, 0, 27);
-        fakeActor.setDeathDate(calendar.getTime());
-        actorsList.add(fakeActor);
-
-        fakeActor = new Actor();
-        fakeActor.setId(3);
-        fakeActor.setFirstName("Tye");
-        fakeActor.setLastName("Sheridan");
-        calendar.set(1996, 10, 11);
-        fakeActor.setBirthDate(calendar.getTime());
-        fakeActor.setDeathDate(null);
-        actorsList.add(fakeActor);
-
-        model.addAttribute("actorsList", actorsList);
+        model.addAttribute("actorsList", actorsService.fetchAll());
 
         return this.render("actors/list", model);
     }

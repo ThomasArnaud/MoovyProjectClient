@@ -1,16 +1,12 @@
 package com.moovy.client.controllers;
 
-import com.moovy.client.entities.Director;
-import org.omg.CORBA.Request;
+import com.moovy.client.services.DirectorsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -30,28 +26,9 @@ public class DirectorsController extends AbstractController
     {
         // Set up some fake data
         ModelMap model = new ModelMap();
-        List<Director> directorsList = new ArrayList<>();
-        Director fakeDirector = null;
+        DirectorsService directorsService = new DirectorsService();
 
-        fakeDirector = new Director();
-        fakeDirector.setId(1);
-        fakeDirector.setFirstName("Martin");
-        fakeDirector.setLastName("Scorsese");
-        directorsList.add(fakeDirector);
-
-        fakeDirector = new Director();
-        fakeDirector.setId(2);
-        fakeDirector.setFirstName("Quentin");
-        fakeDirector.setLastName("Tarantino");
-        directorsList.add(fakeDirector);
-
-        fakeDirector = new Director();
-        fakeDirector.setId(3);
-        fakeDirector.setFirstName("Terence");
-        fakeDirector.setLastName("Mallick");
-        directorsList.add(fakeDirector);
-
-        model.addAttribute("directorsList", directorsList);
+        model.addAttribute("directorsList", directorsService.fetchAll());
 
         return this.render("directors/list", model);
     }

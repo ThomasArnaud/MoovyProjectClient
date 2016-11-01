@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<taglib
+    xmlns="http://java.sun.com/xml/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1"
+>
+    <tlib-version>2.1</tlib-version>
+    <short-name>my</short-name>
+    <uri>https://online-stuff.fr.nf/jsp/jstl/durationFunctions</uri>
+    <function>
+        <name>formatDuration</name>
+        <function-class>com.moovy.client.jsp.DurationFunctions</function-class>
+        <function-signature>java.lang.String formatDuration(int)</function-signature>
+    </function>
+</taglib>

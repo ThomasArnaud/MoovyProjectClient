@@ -24,7 +24,7 @@
                         url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/French.json"
                     },
                     columnDefs: [{
-                        targets: 2,
+                        targets: 5,
                         orderable: false
                     }]
                 });

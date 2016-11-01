@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.services.MoviesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,13 @@ public class MoviesController extends AbstractController
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
     public ModelAndView list()
     {
-        return this.render("movies/list");
+        // Set up some fake data
+        ModelMap model = new ModelMap();
+        MoviesService moviesService = new MoviesService();
+
+        model.addAttribute("moviesList", moviesService.fetchAll());
+
+        return this.render("movies/list", model);
     }
 
     /**
