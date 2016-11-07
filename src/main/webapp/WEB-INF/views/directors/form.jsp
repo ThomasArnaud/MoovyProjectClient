@@ -6,7 +6,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <t:layout>
-    <jsp:attribute name="_page_title">Moovy &raquo; Réalisateurs &raquo; ${page_title}</jsp:attribute>
+    <jsp:attribute name="_page_title">Moovy &raquo; Réalisateurs &raquo; ${_page_title}</jsp:attribute>
     <jsp:attribute name="body_title">${_body_title}</jsp:attribute>
     <jsp:body>
         <div class="box box-solid">

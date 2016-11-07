@@ -2,11 +2,19 @@ package com.moovy.client.controllers;
 
 import com.moovy.client.entities.Actor;
 import com.moovy.client.services.ActorsService;
+import com.moovy.client.validators.ActorValidator;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -17,6 +25,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ActorsController extends AbstractController
 {
+    /**
+     * Initializes a binder with validators and editors.
+     *
+     * @param binder The binder to initialize.
+     */
+    @InitBinder
+    protected void initBinder(WebDataBinder binder)
+    {
+        binder.setValidator(new ActorValidator());
+    }
+
     /**
      * Displays a list of actors.
      *
@@ -64,15 +83,36 @@ public class ActorsController extends AbstractController
     @RequestMapping(value = "/actors/edit/{id}", method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable int id)
     {
-        // Build model
-        ModelMap model = new ModelMap();
+        // Initialize vars
+        ActorsService actorsService = new ActorsService();
+        Actor actor = actorsService.fetch(id);
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
-        model.addAttribute("_page_current", "actors_edit");
-        model.addAttribute("_page_title", "Éditer un acteur");
-        model.addAttribute("_body_title", "Éditer un acteur");
+        if(actor != null)
+        {
+            // Build model
+            ModelMap model = new ModelMap();
 
-        return this.render("actors/form", model);
+            model.addAttribute("_flashMessages", this.getAndClearFlashList());
+            model.addAttribute("_page_current", "actors_edit");
+            model.addAttribute("_page_title", "Éditer un acteur");
+            model.addAttribute("_body_title", "Éditer un acteur");
+            model.addAttribute("actor", actor);
+
+            return this.render("actors/form", model);
+        }
+        else
+        {
+            // Register a flash message and redirect
+            this.addFlash(
+                "danger",
+                String.format(
+                    "Il n'existe aucun acteur ayant pour identifiant <strong>%d</strong>.",
+                        id
+                )
+            );
+
+            return this.redirect("/actors");
+        }
     }
 
     /**
@@ -81,9 +121,42 @@ public class ActorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/actors/submit", method = RequestMethod.POST)
-    public ModelAndView submit()
+    public ModelAndView submit(
+        @ModelAttribute("actor") @Validated Actor actor,
+        BindingResult result,
+        @RequestParam(value = "_is_new", required = false) boolean isNew
+    )
     {
-        return this.render("actors/form");
+        if(!result.hasErrors())
+        {
+            // Save director
+            ActorsService actorsService = new ActorsService();
+
+            // Then, register a flash message and redirect
+            this.addFlash(
+                "success",
+                String.format(
+                    "Acteur <strong>%s %s</strong> sauvegardé.",
+                    StringEscapeUtils.escapeHtml(actor.getFirstName()),
+                    StringEscapeUtils.escapeHtml(actor.getLastName())
+                )
+            );
+
+            return this.redirect("/directors");
+        }
+        else
+        {
+            // Build model
+            ModelMap model = new ModelMap();
+
+            model.addAttribute("_flashMessages", this.getAndClearFlashList());
+            model.addAttribute("_page_current", isNew ? "actors_add" : "actors_edit");
+            model.addAttribute("_page_title", isNew ? "Ajouter un acteur" : "Éditer un acteur");
+            model.addAttribute("_body_title", isNew ? "Ajouter un acteur" : "Éditer un acteur");
+            model.addAttribute("actor", actor);
+
+            return this.render("actors/form", model);
+        }
     }
 
     /**
@@ -95,6 +168,36 @@ public class ActorsController extends AbstractController
     @RequestMapping(value = "/actors/delete/{id}", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable int id)
     {
+        // Initialize vars
+        ActorsService actorsService = new ActorsService();
+        Actor actor = actorsService.fetch(id);
+
+        if(actor != null)
+        {
+            // Delete director
+            actorsService.delete(actor);
+
+            // Then, register a flash message
+            this.addFlash(
+                "success",
+                String.format(
+                    "Acteur <strong>%s %s</strong> supprimé.",
+                    StringEscapeUtils.escapeHtml(actor.getFirstName()),
+                    StringEscapeUtils.escapeHtml(actor.getLastName())
+                )
+            );
+        }
+        else
+        {
+            this.addFlash(
+                "success",
+                String.format(
+                    "Il n'existe aucun acteur ayant pour identifiant <strong>%d</strong>.",
+                    id
+                )
+            );
+        }
+
         return this.redirect("/actors");
     }
 }
