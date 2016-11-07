@@ -26,6 +26,8 @@ public class Movie
 
     protected List<Character> characters;
 
+    protected List<Category> categories;
+
     public int getId()
     {
         return this.id;
@@ -104,5 +106,15 @@ public class Movie
     public void setCharacters(List<Character> characters)
     {
         this.characters = characters;
+    }
+
+    public List<Category> getCategories()
+    {
+        return this.categories;
+    }
+
+    public void setCategories(List<Category> categories)
+    {
+        this.categories = categories;
     }
 }

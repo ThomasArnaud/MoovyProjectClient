@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.entities.Actor;
 import com.moovy.client.services.ActorsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,7 @@ public class ActorsController extends AbstractController
         ModelMap model = new ModelMap();
         ActorsService actorsService = new ActorsService();
 
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("actorsList", actorsService.fetchAll());
 
         return this.render("actors/list", model);
@@ -43,8 +45,12 @@ public class ActorsController extends AbstractController
     {
         // Build model
         ModelMap model = new ModelMap();
+
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "actors_add");
+        model.addAttribute("_page_title", "Ajouter un acteur");
         model.addAttribute("_body_title", "Ajouter un acteur");
+        model.addAttribute("actor", new Actor());
 
         return this.render("actors/form", model);
     }
@@ -60,7 +66,10 @@ public class ActorsController extends AbstractController
     {
         // Build model
         ModelMap model = new ModelMap();
+
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "actors_edit");
+        model.addAttribute("_page_title", "Éditer un acteur");
         model.addAttribute("_body_title", "Éditer un acteur");
 
         return this.render("actors/form", model);

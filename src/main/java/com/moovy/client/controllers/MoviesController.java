@@ -1,5 +1,7 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.entities.Movie;
+import com.moovy.client.services.DirectorsService;
 import com.moovy.client.services.MoviesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +30,7 @@ public class MoviesController extends AbstractController
         ModelMap model = new ModelMap();
         MoviesService moviesService = new MoviesService();
 
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("moviesList", moviesService.fetchAll());
 
         return this.render("movies/list", model);
@@ -43,8 +46,14 @@ public class MoviesController extends AbstractController
     {
         // Build model
         ModelMap model = new ModelMap();
+        DirectorsService directorsService = new DirectorsService();
+
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "movies_add");
+        model.addAttribute("_page_title", "Ajouter un film");
         model.addAttribute("_body_title", "Ajouter un film");
+        model.addAttribute("movie", new Movie());
+        model.addAttribute("directorsList", directorsService.fetchAll());
 
         return this.render("movies/form", model);
     }
@@ -60,7 +69,10 @@ public class MoviesController extends AbstractController
     {
         // Build model
         ModelMap model = new ModelMap();
+
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "movies_edit");
+        model.addAttribute("_page_title", "Éditer un film");
         model.addAttribute("_body_title", "Éditer un film");
 
         return this.render("movies/form", model);

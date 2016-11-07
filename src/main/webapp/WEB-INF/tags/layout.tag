@@ -207,6 +207,14 @@
                     </h1>
                 </section>
                 <section class="content">
+                    <c:if test="${not empty _flashMessages && fn:length(_flashMessages) gt 0}">
+                        <c:forEach items="${_flashMessages}" var="flashMessage">
+                            <div class="alert alert-${flashMessage.type} alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    ${flashMessage.contents}
+                            </div>
+                        </c:forEach>
+                    </c:if>
                     <jsp:doBody />
                 </section>
             </div>
