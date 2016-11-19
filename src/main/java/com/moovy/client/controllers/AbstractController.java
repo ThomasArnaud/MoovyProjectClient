@@ -2,12 +2,12 @@ package com.moovy.client.controllers;
 
 import com.moovy.client.AbstractException;
 import com.moovy.client.session.Flash;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -23,8 +23,18 @@ public abstract class AbstractController
     /**
      * The HTTP request sent to the server.
      */
-    @Autowired
-    protected HttpServletRequest request;
+    protected final HttpServletRequest request;
+
+    /**
+     * Creates a new controller for the given request.
+     *
+     * @param request The user's request.
+     */
+    @Inject
+    public AbstractController(HttpServletRequest request)
+    {
+        this.request = request;
+    }
 
     /**
      * Renders a view whose path is {@code viewPath} without any accompanying

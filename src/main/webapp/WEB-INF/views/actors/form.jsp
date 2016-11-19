@@ -27,6 +27,9 @@
             <div class="box-body">
                 <c:url value="/actors/submit" var="_url" />
                 <form:form method="post" action="${fn:escapeXml(_url)}" modelAttribute="actor" cssClass="form-horizontal">
+                    <c:if test="${empty actor.id || actor.id eq 0}">
+                        <input type="hidden" name="_is_new" value="1" />
+                    </c:if>
                     <form:input path="id" type="hidden" />
                     <spring:bind path="firstName">
                         <div class="form-group ${status.error ? "has-error" : ""}">
@@ -77,7 +80,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </span>
                                 </div>
-                                <form:errors path="lastName" cssClass="help-block" />
+                                <form:errors path="birthDate" cssClass="help-block" />
                             </div>
                         </div>
                     </spring:bind>

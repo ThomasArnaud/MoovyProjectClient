@@ -126,7 +126,7 @@
                                                 <fmt:formatDate value="${movie.releaseDate}" />
                                             </td>
                                             <td>
-
+                                                <my:formatMinutes value="${movie.duration}" />
                                             </td>
                                             <td>
                                                 <fmt:formatNumber value="${movie.budget}" type="currency" />

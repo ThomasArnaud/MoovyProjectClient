@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
  * @author Bruno Buiret (bruno.buiret@etu.univ-lyon1.fr)
@@ -13,6 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SecurityController extends AbstractController
 {
+    /**
+     * {@inheritDoc}
+     */
+    public SecurityController(HttpServletRequest request)
+    {
+        super(request);
+    }
+
     /**
      * Displays the login form
      *

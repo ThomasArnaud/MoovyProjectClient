@@ -13,7 +13,7 @@
             <div class="box-body">
                 <c:url value="/directors/submit" var="_url" />
                 <form:form method="post" action="${fn:escapeXml(_url)}" modelAttribute="director" cssClass="form-horizontal">
-                    <c:if test="${empty director.id}">
+                    <c:if test="${empty director.id || director.id eq 0}">
                         <input type="hidden" name="_is_new" value="1" />
                     </c:if>
                     <form:input path="id" type="hidden" />

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -75,14 +76,29 @@ public class DirectorsService extends AbstractService
     }
 
     /**
-     * Searches directorss in the database according to a query.
+     * Searches directors in the database according to a query.
      *
      * @param query The query to use.
      * @return A list of directors matching the query.
      */
     public List<Director> search(String query)
     {
-        return null;
+        // Build fake data
+        List<Director> fakeDirectors = new ArrayList<>();
+        Pattern queryPattern = Pattern.compile(".*" + query + ".*", Pattern.CASE_INSENSITIVE);
+
+        for(Map.Entry<Integer, Director> entry : DirectorsService.fakeDirectors.entrySet())
+        {
+            if(
+                queryPattern.matcher(entry.getValue().getFirstName()).matches()
+                || queryPattern.matcher(entry.getValue().getLastName()).matches()
+            )
+            {
+                fakeDirectors.add(entry.getValue());
+            }
+        }
+
+        return fakeDirectors;
     }
 
     /**

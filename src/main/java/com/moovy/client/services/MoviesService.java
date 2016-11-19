@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -179,7 +180,19 @@ public class MoviesService extends AbstractService
      */
     public List<Movie> search(String query)
     {
-        return null;
+        // Build fake data
+        List<Movie> fakeMovies = new ArrayList<>();
+        Pattern queryPattern = Pattern.compile(".*" + query + ".*", Pattern.CASE_INSENSITIVE);
+
+        for(Map.Entry<Integer, Movie> entry : MoviesService.fakeMovies.entrySet())
+        {
+            if(queryPattern.matcher(entry.getValue().getTitle()).matches())
+            {
+                fakeMovies.add(entry.getValue());
+            }
+        }
+
+        return fakeMovies;
     }
 
     /**

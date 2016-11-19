@@ -12,6 +12,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
  * @author Bruno Buiret (bruno.buiret@etu.univ-lyon1.fr)
@@ -20,6 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class DirectorsController extends AbstractController
 {
+    /**
+     * {@inheritDoc}
+     */
+    public DirectorsController(HttpServletRequest request)
+    {
+        super(request);
+    }
+
     /**
      * Initializes a binder with validators and editors.
      *
@@ -126,6 +136,7 @@ public class DirectorsController extends AbstractController
         {
             // Save director
             DirectorsService directorsService = new DirectorsService();
+            directorsService.save(director);
 
             // Then, register a flash message and redirect
             this.addFlash(

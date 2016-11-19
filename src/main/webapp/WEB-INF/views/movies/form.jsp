@@ -27,6 +27,9 @@
             <div class="box-body">
                 <c:url value="/movies/submit" var="_url" />
                 <form:form method="post" action="${fn:escapeXml(_url)}" modelAttribute="movie" cssClass="form-horizontal">
+                    <c:if test="${empty movie.id || movie.id eq 0}">
+                        <input type="hidden" name="_is_new" value="1" />
+                    </c:if>
                     <form:input path="id" type="hidden" />
                     <spring:bind path="title">
                         <div class="form-group ${status.error ? "has-error" : ""}">

@@ -2,8 +2,10 @@ package com.moovy.client.controllers;
 
 import com.moovy.client.entities.Actor;
 import com.moovy.client.services.ActorsService;
+import com.moovy.client.utils.DateUtils;
 import com.moovy.client.validators.ActorValidator;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
  * @author Bruno Buiret (bruno.buiret@etu.univ-lyon1.fr)
@@ -26,6 +31,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class ActorsController extends AbstractController
 {
     /**
+     * {@inheritDoc}
+     */
+    public ActorsController(HttpServletRequest request)
+    {
+        super(request);
+    }
+
+    /**
      * Initializes a binder with validators and editors.
      *
      * @param binder The binder to initialize.
@@ -34,6 +47,7 @@ public class ActorsController extends AbstractController
     protected void initBinder(WebDataBinder binder)
     {
         binder.setValidator(new ActorValidator());
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(DateUtils.FORMAT_SHORT, false));
     }
 
     /**
@@ -129,8 +143,9 @@ public class ActorsController extends AbstractController
     {
         if(!result.hasErrors())
         {
-            // Save director
+            // Save actor
             ActorsService actorsService = new ActorsService();
+            actorsService.save(actor);
 
             // Then, register a flash message and redirect
             this.addFlash(

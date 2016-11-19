@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -137,7 +138,22 @@ public class ActorsService extends AbstractService
      */
     public List<Actor> search(String query)
     {
-        return null;
+        // Build fake data
+        List<Actor> fakeActors = new ArrayList<>();
+        Pattern queryPattern = Pattern.compile(".*" + query + ".*", Pattern.CASE_INSENSITIVE);
+
+        for(Map.Entry<Integer, Actor> entry : ActorsService.fakeActors.entrySet())
+        {
+            if(
+                queryPattern.matcher(entry.getValue().getFirstName()).matches()
+                || queryPattern.matcher(entry.getValue().getLastName()).matches()
+            )
+            {
+                fakeActors.add(entry.getValue());
+            }
+        }
+
+        return fakeActors;
     }
 
     /**
