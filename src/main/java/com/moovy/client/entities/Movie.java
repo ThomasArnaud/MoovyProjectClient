@@ -1,5 +1,6 @@
 package com.moovy.client.entities;
 
+import java.lang.*;
 import java.util.Date;
 import java.util.List;
 
@@ -17,16 +18,16 @@ public class Movie
     protected int duration;
 
     protected Date releaseDate;
-
     protected int budget;
-
     protected int profit;
-
     protected Director director;
-
     protected List<Character> characters;
-
     protected List<Category> categories;
+    private int benefit;
+
+    public void setReleaseDate(java.sql.Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 
     public int getId()
     {
@@ -108,13 +109,47 @@ public class Movie
         this.characters = characters;
     }
 
-    public List<Category> getCategories()
-    {
+    public List<Category> getCategories() {
         return this.categories;
     }
 
-    public void setCategories(List<Category> categories)
-    {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public int getBenefit() {
+        return benefit;
+    }
+
+    public void setBenefit(int benefit) {
+        this.benefit = benefit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        if (id != movie.id) return false;
+        if (duration != movie.duration) return false;
+        if (budget != movie.budget) return false;
+        if (benefit != movie.benefit) return false;
+        if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
+        if (releaseDate != null ? !releaseDate.equals(movie.releaseDate) : movie.releaseDate != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + duration;
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + budget;
+        result = 31 * result + benefit;
+        return result;
     }
 }

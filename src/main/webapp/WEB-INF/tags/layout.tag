@@ -23,9 +23,9 @@
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         <c:url value="/assets/css/skin-black-light.min.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
+        <jsp:invoke fragment="_page_stylesheets" />
         <c:url value="/assets/css/common.min.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
-        <jsp:invoke fragment="_page_stylesheets" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -143,6 +143,20 @@
                                     <a href="${fn:escapeXml(_url)}">
                                         <i class="fa fa-angle-right"></i>
                                         Ajouter un nouveau film
+                                    </a>
+                                </li>
+                                <li<c:if test="${not empty _page_current && _page_current == 'movies_categories_list'}"> class="active"</c:if>>
+                                    <c:url value="/movies/categories" var="_url" />
+                                    <a href="${fn:escapeXml(_url)}">
+                                        <i class="fa fa-angle-right"></i>
+                                        Consulter la liste des catégories
+                                    </a>
+                                </li>
+                                <li<c:if test="${not empty _page_current && _page_current == 'movies_categories_add'}"> class="active"</c:if>>
+                                    <c:url value="/movies/categories/add" var="_url" />
+                                    <a href="${fn:escapeXml(_url)}">
+                                        <i class="fa fa-angle-right"></i>
+                                        Ajouter une nouvelle catégorie
                                     </a>
                                 </li>
                             </ul>

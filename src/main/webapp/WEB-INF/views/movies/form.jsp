@@ -10,14 +10,41 @@
     <jsp:attribute name="body_title">${_body_title}</jsp:attribute>
     <jsp:attribute name="_page_stylesheets">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" media="screen" />
     </jsp:attribute>
     <jsp:attribute name="_page_scripts">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/fr.js"></script>
         <script type="text/javascript">
             $(function() {
+                // Initialize vars
+                var $directorsSelect = $("#director");
+                var firstDirectorValue = $directorsSelect.val();
+                var $categoriesSelect = $("#categories");
+                var firstCategoriesValue = $categoriesSelect.val();
+
+                // Advanced input elements
                 $("#releaseDate").datepicker({
                     language: "fr"
+                });
+
+                $directorsSelect.select2();
+                $categoriesSelect.select2();
+
+                // Re-establish form behavior
+                $("label[for='director']").click(function(e) {
+                    // Prevent default behavior
+                    e.preventDefault();
+
+                    // Open directors list
+                    $directorsSelect.select2("open");
+                });
+
+                $("form").on("reset", function(e) {
+                    $directorsSelect.val(firstDirectorValue).trigger("change");
+                    $categoriesSelect.val(firstCategoriesValue).trigger("change");
                 });
             });
         </script>
@@ -53,12 +80,17 @@
                                 Durée*
                             </form:label>
                             <div class="col-sm-10">
-                                <form:input
-                                    path="duration"
-                                    type="number"
-                                    cssClass="form-control"
-                                    id="duration"
-                                />
+                                <div class="input-group">
+                                    <form:input
+                                        path="duration"
+                                        type="number"
+                                        cssClass="form-control"
+                                        id="duration"
+                                    />
+                                    <span class="input-group-addon">
+                                        min
+                                    </span>
+                                </div>
                                 <form:errors path="duration" cssClass="help-block" />
                             </div>
                         </div>
@@ -137,9 +169,27 @@
                                     cssClass="form-control"
                                     id="director"
                                 >
-                                    <form:options items="${directorsList}" itemValue="id" itemLabel="firstName" />
+                                    <form:options items="${directorsList}" itemValue="id" itemLabel="fullName" />
                                 </form:select>
                                 <form:errors path="director" cssClass="help-block" />
+                            </div>
+                        </div>
+                    </spring:bind>
+                    <spring:bind path="categories">
+                        <div class="form-group ${status.error ? "has-error" : ""}">
+                            <form:label path="categories" for="categories" cssClass="control-label col-sm-2">
+                                Catégories
+                            </form:label>
+                            <div class="col-sm-10">
+                                <form:select
+                                    path="categories"
+                                    cssClass="form-control"
+                                    id="categories"
+                                    multiple="multiple"
+                                >
+                                    <form:options items="${categoriesList}" itemValue="code" itemLabel="name" />
+                                </form:select>
+                                <form:errors path="categories" cssClass="help-block" />
                             </div>
                         </div>
                     </spring:bind>

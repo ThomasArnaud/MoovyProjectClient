@@ -1,8 +1,10 @@
 package com.moovy.client.services;
 
+import com.moovy.client.entities.Category;
 import com.moovy.client.entities.Character;
 import com.moovy.client.entities.Movie;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,10 +26,12 @@ public class MoviesService extends AbstractService
         // Initialize vars
         Movie fakeMovie = null;
         Character fakeCharacter = null;
+        Category fakeCategory = null;
         Calendar calendar = Calendar.getInstance();
         DirectorsService directorsService = new DirectorsService();
         ActorsService actorsService = new ActorsService();
         List<Character> fakeCharactersList = null;
+        List<Category> fakeCategoriesList = null;
 
         // Create fake movies
         fakeMovie = new Movie();
@@ -35,7 +39,7 @@ public class MoviesService extends AbstractService
         fakeMovie.setTitle("Léon");
         fakeMovie.setDuration(110);
         calendar.set(1994, 3, 14);
-        fakeMovie.setReleaseDate(calendar.getTime());
+        fakeMovie.setReleaseDate(new Date(calendar.getTimeInMillis()));
         fakeMovie.setBudget(17531000);
         fakeMovie.setProfit(69250000);
         fakeMovie.setDirector(directorsService.fetch(3));
@@ -51,6 +55,12 @@ public class MoviesService extends AbstractService
         fakeCharacter.setActor(actorsService.fetch(5));
         fakeCharactersList.add(fakeCharacter);
         fakeMovie.setCharacters(fakeCharactersList);
+        fakeCategoriesList = new ArrayList<>();
+        fakeCategory = new Category();
+        fakeCategory.setCode("PO");
+        fakeCategory.setName("Policier");
+        fakeCategoriesList.add(fakeCategory);
+        fakeMovie.setCategories(fakeCategoriesList);
         MoviesService.fakeMovies.put(1, fakeMovie);
 
         fakeMovie = new Movie();
@@ -58,7 +68,7 @@ public class MoviesService extends AbstractService
         fakeMovie.setTitle("Cash");
         fakeMovie.setDuration(100);
         calendar.set(2008, 3, 23);
-        fakeMovie.setReleaseDate(calendar.getTime());
+        fakeMovie.setReleaseDate(new Date(calendar.getTimeInMillis()));
         fakeMovie.setBudget(18340000);
         fakeMovie.setProfit(60340000);
         fakeMovie.setDirector(directorsService.fetch(4));
@@ -74,6 +84,12 @@ public class MoviesService extends AbstractService
         fakeCharacter.setActor(actorsService.fetch(7));
         fakeCharactersList.add(fakeCharacter);
         fakeMovie.setCharacters(fakeCharactersList);
+        fakeCategoriesList = new ArrayList<>();
+        fakeCategory = new Category();
+        fakeCategory.setCode("PO");
+        fakeCategory.setName("Policier");
+        fakeCategoriesList.add(fakeCategory);
+        fakeMovie.setCategories(fakeCategoriesList);
         MoviesService.fakeMovies.put(2, fakeMovie);
 
         fakeMovie = new Movie();
@@ -81,7 +97,7 @@ public class MoviesService extends AbstractService
         fakeMovie.setTitle("La grande vadrouille");
         fakeMovie.setDuration(132);
         calendar.set(1966, 11, 1);
-        fakeMovie.setReleaseDate(calendar.getTime());
+        fakeMovie.setReleaseDate(new Date(calendar.getTimeInMillis()));
         fakeMovie.setBudget(7227000);
         fakeMovie.setProfit(51258000);
         fakeMovie.setDirector(directorsService.fetch(2));
@@ -97,6 +113,12 @@ public class MoviesService extends AbstractService
         fakeCharacter.setActor(actorsService.fetch(12));
         fakeCharactersList.add(fakeCharacter);
         fakeMovie.setCharacters(fakeCharactersList);
+        fakeCategoriesList = new ArrayList<>();
+        fakeCategory = new Category();
+        fakeCategory.setCode("AC");
+        fakeCategory.setName("Action");
+        fakeCategoriesList.add(fakeCategory);
+        fakeMovie.setCategories(fakeCategoriesList);
         MoviesService.fakeMovies.put(3, fakeMovie);
 
         fakeMovie = new Movie();
@@ -104,7 +126,7 @@ public class MoviesService extends AbstractService
         fakeMovie.setTitle("Subway");
         fakeMovie.setDuration(104);
         calendar.set(1985, 3, 10);
-        fakeMovie.setReleaseDate(calendar.getTime());
+        fakeMovie.setReleaseDate(new Date(calendar.getTimeInMillis()));
         fakeMovie.setBudget(10567000);
         fakeMovie.setProfit(70500000);
         fakeMovie.setDirector(directorsService.fetch(3));
@@ -125,6 +147,12 @@ public class MoviesService extends AbstractService
         fakeCharacter.setActor(actorsService.fetch(15));
         fakeCharactersList.add(fakeCharacter);
         fakeMovie.setCharacters(fakeCharactersList);
+        fakeCategoriesList = new ArrayList<>();
+        fakeCategory = new Category();
+        fakeCategory.setCode("PO");
+        fakeCategory.setName("Policier");
+        fakeCategoriesList.add(fakeCategory);
+        fakeMovie.setCategories(fakeCategoriesList);
         MoviesService.fakeMovies.put(4, fakeMovie);
 
         fakeMovie = new Movie();
@@ -132,7 +160,7 @@ public class MoviesService extends AbstractService
         fakeMovie.setTitle("The Avengers");
         fakeMovie.setDuration(143);
         calendar.set(2012, 3, 25);
-        fakeMovie.setReleaseDate(calendar.getTime());
+        fakeMovie.setReleaseDate(new Date(calendar.getTimeInMillis()));
         fakeMovie.setBudget(220000000);
         fakeMovie.setProfit(1518594000);
         fakeMovie.setDirector(directorsService.fetch(5));
@@ -148,6 +176,12 @@ public class MoviesService extends AbstractService
         fakeCharacter.setActor(actorsService.fetch(17));
         fakeCharactersList.add(fakeCharacter);
         fakeMovie.setCharacters(fakeCharactersList);
+        fakeCategoriesList = new ArrayList<>();
+        fakeCategory = new Category();
+        fakeCategory.setCode("AC");
+        fakeCategory.setName("Action");
+        fakeCategoriesList.add(fakeCategory);
+        fakeMovie.setCategories(fakeCategoriesList);
         MoviesService.fakeMovies.put(5, fakeMovie);
     }
 

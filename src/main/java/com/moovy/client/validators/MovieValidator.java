@@ -2,6 +2,7 @@ package com.moovy.client.validators;
 
 import com.moovy.client.entities.Movie;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -32,10 +33,12 @@ public class MovieValidator implements Validator
     {
         if(target instanceof Movie)
         {
-            /*
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", null, "Vous devez préciser le prénom.");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", null, "Vous devez préciser le nom.");
-            */
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", null, "Vous devez préciser le titre.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "duration", null, "Vous devez préciser la durée.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "releaseDate", null, "Vous devez préciser la date de sortie.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "budget", null, "Vous devez préciser le budget.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "profit", null, "Vous devez préciser le profit réalisé.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "director", null, "Vous devez préciser le réalisateur.");
         }
     }
 }

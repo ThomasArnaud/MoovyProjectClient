@@ -5,13 +5,12 @@ package com.moovy.client.entities;
  * @author Bruno Buiret (bruno.buiret@etu.univ-lyon1.fr)
  * @author Alexis Rabilloud (alexis.rabilloud@etu.univ-lyon1.fr)
  */
-public class Character {
+public class MovieCategory {
 
     protected Movie movie;
-    protected Actor actor;
-    protected String name;
+    protected Category category;
     private int idMovie;
-    private int idActor;
+    private String codeCategory;
 
     public Movie getMovie() {
         return movie;
@@ -21,20 +20,12 @@ public class Character {
         this.movie = movie;
     }
 
-    public Actor getActor() {
-        return actor;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setActor(Actor actor) {
-        this.actor = actor;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public int getIdMovie() {
@@ -45,12 +36,12 @@ public class Character {
         this.idMovie = idMovie;
     }
 
-    public int getIdActor() {
-        return idActor;
+    public String getCodeCategory() {
+        return codeCategory;
     }
 
-    public void setIdActor(int idActor) {
-        this.idActor = idActor;
+    public void setCodeCategory(String codeCategory) {
+        this.codeCategory = codeCategory;
     }
 
     @Override
@@ -58,11 +49,10 @@ public class Character {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Character character = (Character) o;
+        MovieCategory that = (MovieCategory) o;
 
-        if (idMovie != character.idMovie) return false;
-        if (idActor != character.idActor) return false;
-        if (name != null ? !name.equals(character.name) : character.name != null) return false;
+        if (idMovie != that.idMovie) return false;
+        if (codeCategory != null ? !codeCategory.equals(that.codeCategory) : that.codeCategory != null) return false;
 
         return true;
     }
@@ -70,8 +60,7 @@ public class Character {
     @Override
     public int hashCode() {
         int result = idMovie;
-        result = 31 * result + idActor;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (codeCategory != null ? codeCategory.hashCode() : 0);
         return result;
     }
 }

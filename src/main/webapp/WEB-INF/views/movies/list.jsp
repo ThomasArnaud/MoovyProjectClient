@@ -80,6 +80,14 @@
                 $("[data-tooltip]").tooltip({
                     container: "body"
                 });
+
+                $moviesTable.find("a[data-tooltip]").click(function(e) {
+                    $(this).tooltip("hide");
+                });
+
+                $moviesTable.on('hidden.bs.tooltip', function () {
+                    console.log($(this));
+                })
             });
         </script>
     </jsp:attribute>
@@ -125,13 +133,13 @@
                                             <td>
                                                 <fmt:formatDate value="${movie.releaseDate}" />
                                             </td>
-                                            <td>
+                                            <td data-order="${movie.duration}">
                                                 <my:formatMinutes value="${movie.duration}" />
                                             </td>
-                                            <td>
+                                            <td data-order="${movie.budget}">
                                                 <fmt:formatNumber value="${movie.budget}" type="currency" />
                                             </td>
-                                            <td>
+                                            <td data-order="${movie.profit}">
                                                 <fmt:formatNumber value="${movie.profit}" type="currency" />
                                             </td>
                                             <td>
