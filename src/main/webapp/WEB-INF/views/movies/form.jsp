@@ -86,6 +86,8 @@
                                         type="number"
                                         cssClass="form-control"
                                         id="duration"
+                                        min="0"
+                                        step="1"
                                     />
                                     <span class="input-group-addon">
                                         min
@@ -128,6 +130,8 @@
                                         type="number"
                                         cssClass="form-control"
                                         id="budget"
+                                        min="0"
+                                        step="1"
                                     />
                                     <span class="input-group-addon">
                                         <i class="fa fa-dollar"></i>
@@ -149,6 +153,8 @@
                                         type="number"
                                         cssClass="form-control"
                                         id="profit"
+                                        min="0"
+                                        step="1"
                                     />
                                     <span class="input-group-addon">
                                         <i class="fa fa-dollar"></i>

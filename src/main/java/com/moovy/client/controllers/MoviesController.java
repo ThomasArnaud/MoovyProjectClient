@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -400,5 +400,45 @@ public class MoviesController extends AbstractController
         }
 
         return this.redirect("/movies/categories");
+    }
+
+    /**
+     * Displays the form to edit a movie's characters.
+     *
+     * @param movieId The movie's id.
+     * @return The view to render or a redirection.
+     * @see http://viralpatel.net/blogs/spring-mvc-multi-row-submit-java-list/
+     */
+    @RequestMapping(value = "/movies/{id}/characters", method = RequestMethod.GET)
+    public ModelAndView charactersEdit(int movieId)
+    {
+        // Initialize vars
+        MoviesService moviesService = new MoviesService();
+        Movie movie = moviesService.fetch(movieId);
+
+        if(movie != null)
+        {
+            // Build model
+            ModelMap model = new ModelMap();
+
+            model.addAttribute("_flashMessages", this.getAndClearFlashList());
+            model.addAttribute("_page_current", "movies_characters");
+            model.addAttribute("movie", movie);
+
+            return this.render("movies/characters", model);
+        }
+        else
+        {
+            // Register a flash message and redirect
+            this.addFlash(
+                "danger",
+                String.format(
+                    "Il n'existe aucun film ayant pour identifiant <strong>%d</strong>.",
+                    movieId
+                )
+            );
+
+            return this.redirect("/movies");
+        }
     }
 }

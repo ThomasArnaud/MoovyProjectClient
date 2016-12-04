@@ -17,7 +17,7 @@
             <div class="box-body">
                 <c:url value="/movies/categories/submit" var="_url" />
                 <form:form method="post" action="${fn:escapeXml(_url)}" modelAttribute="category" cssClass="form-horizontal">
-                    <form:input path="name" type="hidden" />
+                    <form:input path="code" type="hidden" />
                     <spring:bind path="name">
                         <div class="form-group ${status.error ? "has-error" : ""}">
                             <form:label path="name" for="name" cssClass="control-label col-sm-2">
