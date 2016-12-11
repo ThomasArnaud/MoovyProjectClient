@@ -1,9 +1,14 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.editors.ActorEditor;
+import com.moovy.client.editors.CategoryEditor;
 import com.moovy.client.editors.DirectorEditor;
+import com.moovy.client.entities.Actor;
 import com.moovy.client.entities.Category;
+import com.moovy.client.entities.Character;
 import com.moovy.client.entities.Director;
 import com.moovy.client.entities.Movie;
+import com.moovy.client.services.ActorsService;
 import com.moovy.client.services.CategoriesService;
 import com.moovy.client.services.DirectorsService;
 import com.moovy.client.services.MoviesService;
@@ -27,8 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -56,6 +60,8 @@ public class MoviesController extends AbstractController
     {
         binder.setValidator(new MovieValidator());
         binder.registerCustomEditor(Director.class, new DirectorEditor());
+        binder.registerCustomEditor(Actor.class, new ActorEditor());
+        binder.registerCustomEditor(Category.class, new CategoryEditor());
         binder.registerCustomEditor(Date.class, new CustomDateEditor(DateUtils.FORMAT_SHORT, false));
         binder.registerCustomEditor(List.class, "categories", new CustomCollectionEditor(List.class));
     }
@@ -407,10 +413,10 @@ public class MoviesController extends AbstractController
      *
      * @param movieId The movie's id.
      * @return The view to render or a redirection.
-     * @see http://viralpatel.net/blogs/spring-mvc-multi-row-submit-java-list/
+     * @see <a href="http://viralpatel.net/blogs/spring-mvc-multi-row-submit-java-list/">http://viralpatel.net/blogs/spring-mvc-multi-row-submit-java-list/</a>
      */
-    @RequestMapping(value = "/movies/{id}/characters", method = RequestMethod.GET)
-    public ModelAndView charactersEdit(int movieId)
+    @RequestMapping(value = "/movies/{movieId}/characters", method = RequestMethod.GET)
+    public ModelAndView charactersEdit(@PathVariable int movieId)
     {
         // Initialize vars
         MoviesService moviesService = new MoviesService();
@@ -420,10 +426,11 @@ public class MoviesController extends AbstractController
         {
             // Build model
             ModelMap model = new ModelMap();
+            ActorsService actorsService = new ActorsService();
 
             model.addAttribute("_flashMessages", this.getAndClearFlashList());
-            model.addAttribute("_page_current", "movies_characters");
             model.addAttribute("movie", movie);
+            model.addAttribute("actorsList", actorsService.fetchAll());
 
             return this.render("movies/characters", model);
         }
@@ -439,6 +446,130 @@ public class MoviesController extends AbstractController
             );
 
             return this.redirect("/movies");
+        }
+    }
+
+    /**
+     * Handles the submission of a form to add or edit a movie's characters.
+     *
+     * @return The view to render or a redirection.
+     */
+    @RequestMapping(value = "/movies/{movieId}/characters/submit", method = RequestMethod.POST)
+    public ModelAndView charactersSubmit(
+        @ModelAttribute("movie") @Validated Movie movie,
+        BindingResult result,
+        @RequestParam(value = "new_actors[]", required = false) List<Integer> newActors,
+        @RequestParam(value = "new_characters[]", required = false) List<String> newCharacters,
+        @PathVariable("movieId") int movieId
+    )
+    {
+        // Perform additional validation for the new characters
+        // Is there new characters to add?
+        if(newActors != null && newCharacters != null)
+        {
+            // Is there as many actors as names?
+            // Empty text inputs aren't submitted so a "<" operator is needed
+            if(newActors.size() < newCharacters.size())
+            {
+                result.reject(null, "Vous n'avez pas renseigné autant d'acteurs que de noms de personnage.");
+            }
+            else
+            {
+                // Trim lists by removing empty characters' name
+                int i = 0, newCharactersNumber = newCharacters.size();
+
+                while(i < newCharactersNumber)
+                {
+                    if(newCharacters.get(i).trim().isEmpty())
+                    {
+                        newActors.remove(i);
+                        newCharacters.remove(i);
+                        newCharactersNumber--;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                // Build new characters if needed
+                if(newCharactersNumber > 0)
+                {
+                    ActorsService actorsService = new ActorsService();
+
+                    for(i = 0; i < newCharactersNumber; i++)
+                    {
+                        Character newCharacter = new Character();
+
+                        newCharacter.setMovie(movie);
+                        newCharacter.setIdMovie(movie.getId()); // @todo Is it necessary?
+                        newCharacter.setName(newCharacters.get(i));
+                        newCharacter.setActor(actorsService.fetch(newActors.get(i)));
+                        newCharacter.setIdActor(newActors.get(i)); // @todo Is it necessary?
+
+                        movie.addCharacter(newCharacter);
+                    }
+                }
+
+                // Do actors appear several times?
+                Map<Actor, Integer> actorsCount = new HashMap<>();
+
+                for(Character character : movie.getCharacters())
+                {
+                    actorsCount.put(character.getActor(), actorsCount.getOrDefault(character.getActor(), 0) + 1);
+                }
+
+                StringBuilder duplicatedActorsBuilder = new StringBuilder();
+
+                for(Map.Entry<Actor, Integer> entry : actorsCount.entrySet())
+                {
+                    if(entry.getValue() > 1)
+                    {
+                        duplicatedActorsBuilder
+                            .append(entry.getKey().getFullName())
+                            .append(", ")
+                        ;
+                    }
+                }
+
+                if(duplicatedActorsBuilder.length() > 0)
+                {
+                    duplicatedActorsBuilder.delete(duplicatedActorsBuilder.length() - 2, duplicatedActorsBuilder.length());
+                    result.reject(null, "Au moins un acteur a été défini plusieurs fois : " + duplicatedActorsBuilder.toString());
+                }
+            }
+        }
+
+        if(!result.hasErrors())
+        {
+            // Save movie
+            MoviesService moviesService = new MoviesService();
+            moviesService.save(movie);
+
+            // Then, register a flash message and redirect
+            this.addFlash(
+                "success",
+                String.format(
+                    "Personnages du film <strong>%s</strong> sauvegardé.",
+                    StringEscapeUtils.escapeHtml(movie.getTitle())
+                )
+            );
+
+            return this.redirect("/movies");
+        }
+        else
+        {
+            // Build model
+            ModelMap model = new ModelMap();
+            ActorsService actorsService = new ActorsService();
+
+            model.addAttribute("_flashMessages", this.getAndClearFlashList());
+            model.addAttribute("movie", movie);
+            model.addAttribute("actorsList", actorsService.fetchAll());
+//            model.addAttribute("newActorsList", newActors);
+//            model.addAttribute("newCharactersList", newCharacters);
+
+            return this.render("movies/characters", model);
         }
     }
 }

@@ -47,6 +47,11 @@ public class Actor {
         this.firstName = firstName;
     }
 
+    public String getFullName()
+    {
+        return this.firstName + " " + this.lastName;
+    }
+
     public Date getBirthDate() {
         return birthDate;
     }

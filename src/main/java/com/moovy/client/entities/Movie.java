@@ -109,6 +109,11 @@ public class Movie
         this.characters = characters;
     }
 
+    public void addCharacter(Character character)
+    {
+        this.characters.add(character);
+    }
+
     public List<Category> getCategories() {
         return this.categories;
     }

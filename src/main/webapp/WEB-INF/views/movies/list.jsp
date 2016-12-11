@@ -53,6 +53,8 @@
                 // Set up characters details listener
                 var $charactersModal = $("#modal-characters");
                 var charactersCache = {};
+                <c:url value="/movies/{movieId}/characters" var="_url" />
+                var charactersEditionUrl = "${fn:escapeXml(_url)}";
 
                 $charactersModal.on("show.bs.modal", function(e) {
                     // Initialize vars
@@ -74,6 +76,7 @@
                     // Set up modal
                     $charactersModal.find(".modal-title").html("Personnages de <cite>" + $row.find("td:eq(0)").text() + "</cite>");
                     $charactersModal.find(".modal-body").html(charactersCache[movieId]);
+                    $charactersModal.find("a").attr("href", charactersEditionUrl.replace("{movieId}", movieId));
                 });
 
                 // Set up tooltips
@@ -130,7 +133,7 @@
                                             <td>
                                                 <c:out value="${movie.title}" />
                                             </td>
-                                            <td>
+                                            <td data-order="<fmt:formatDate value="${movie.releaseDate}" pattern="yyyyMMdd"/>">
                                                 <fmt:formatDate value="${movie.releaseDate}" />
                                             </td>
                                             <td data-order="${movie.duration}">
@@ -200,6 +203,9 @@
                     <div class="modal-body">
                     </div>
                     <div class="modal-footer">
+                        <a href="#" class="btn btn-default">
+                            Éditer
+                        </a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
