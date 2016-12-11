@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class MoviesService extends AbstractService
 {
-    protected static final Map<Integer, Movie> fakeMovies = new HashMap<>();
+    public static final Map<Integer, Movie> fakeMovies = new HashMap<>();
 
     static
     {

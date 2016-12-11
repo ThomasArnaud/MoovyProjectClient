@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class CategoriesService extends AbstractService
 {
-    protected static final Map<String, Category> fakeCategories = new HashMap<>();
+    public static final Map<String, Category> fakeCategories = new HashMap<>();
 
     static
     {

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class ActorsService extends AbstractService
 {
-    protected static final Map<Integer, Actor> fakeActors = new HashMap<>();
+    public static final Map<Integer, Actor> fakeActors = new HashMap<>();
 
     static
     {

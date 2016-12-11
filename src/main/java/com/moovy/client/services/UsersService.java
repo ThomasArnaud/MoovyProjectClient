@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class UsersService extends AbstractService
 {
-    protected static final Map<Integer, User> fakeUsers = new HashMap<>();
+    public static final Map<Integer, User> fakeUsers = new HashMap<>();
 
     static
     {
@@ -73,8 +73,9 @@ public class UsersService extends AbstractService
     }
 
     /**
+     * Performs a call to log in an user, that is to say, fetches an user from the database according to their email.
      *
-     * @return
+     * @return The wanted user, or {@code null} if there are no matching users.
      */
     public User login(String email, String password)
     {

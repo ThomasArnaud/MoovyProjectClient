@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class DirectorsService extends AbstractService
 {
-    protected static final Map<Integer, Director> fakeDirectors = new HashMap<>();
+    public static final Map<Integer, Director> fakeDirectors = new HashMap<>();
 
     static
     {
