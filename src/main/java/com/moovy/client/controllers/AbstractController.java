@@ -1,6 +1,7 @@
 package com.moovy.client.controllers;
 
 import com.moovy.client.AbstractException;
+import com.moovy.client.entities.User;
 import com.moovy.client.session.Flash;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,7 +46,7 @@ public abstract class AbstractController
      */
     protected ModelAndView render(String viewPath)
     {
-        return new ModelAndView(viewPath);
+        return this.render(viewPath, null);
     }
 
     /**
@@ -58,6 +59,16 @@ public abstract class AbstractController
      */
     protected ModelAndView render(String viewPath, ModelMap model)
     {
+        // Create model if it hasn't alreadhy
+        if(model == null)
+        {
+            model = new ModelMap();
+        }
+
+        // Add required vars to the model
+        model.addAttribute("_user", this.getUser());
+        model.addAttribute("_flashMessages", this.getAndClearFlashList());
+
         return new ModelAndView(viewPath, model);
     }
 
@@ -152,5 +163,15 @@ public abstract class AbstractController
         // Add the flash message and memorize the new list
         flashList.add(new Flash(type, contents));
         session.setAttribute("_flashes", flashList);
+    }
+
+    /**
+     * Gets the current user.
+     *
+     * @return The current {@code User} if they are connected, {@code null} otherwise.
+     */
+    protected User getUser()
+    {
+        return (User) this.request.getSession().getAttribute("_user");
     }
 }

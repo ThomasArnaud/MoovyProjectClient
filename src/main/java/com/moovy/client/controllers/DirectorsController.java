@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.annotations.RequiresLogin;
 import com.moovy.client.entities.Director;
 import com.moovy.client.services.DirectorsService;
 import com.moovy.client.validators.DirectorValidator;
@@ -40,7 +41,7 @@ public class DirectorsController extends AbstractController
      *
      * @param binder The binder to initialize.
      */
-    @InitBinder
+    @InitBinder("director")
     protected void initBinder(WebDataBinder binder)
     {
         binder.setValidator(new DirectorValidator());
@@ -52,13 +53,13 @@ public class DirectorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/directors", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView list()
     {
         // Set up some fake data
         ModelMap model = new ModelMap();
         DirectorsService directorsService = new DirectorsService();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("directorsList", directorsService.fetchAll());
 
         return this.render("directors/list", model);
@@ -70,12 +71,12 @@ public class DirectorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/directors/add", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView add()
     {
         // Build model
         ModelMap model = new ModelMap();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "directors_add");
         model.addAttribute("_page_title", "Ajouter un réalisateur");
         model.addAttribute("_body_title", "Ajouter un réalisateur");
@@ -91,6 +92,7 @@ public class DirectorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/directors/edit/{id}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView edit(@PathVariable int id)
     {
         // Initialize vars
@@ -102,7 +104,6 @@ public class DirectorsController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("_page_current", "directors_edit");
             model.addAttribute("_page_title", "Éditer un réalisateur");
             model.addAttribute("_body_title", "Éditer un réalisateur");
@@ -131,6 +132,7 @@ public class DirectorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/directors/submit", method = RequestMethod.POST)
+    @RequiresLogin
     public ModelAndView submit(
         @ModelAttribute("director") @Validated Director director,
         BindingResult result,
@@ -160,7 +162,6 @@ public class DirectorsController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("_page_current", isNew ? "directors_add" : "directors_edit");
             model.addAttribute("_page_title", isNew ? "Ajouter un réalisateur" : "Éditer un réalisateur");
             model.addAttribute("_body_title", isNew ? "Ajouter un réalisateur" : "Éditer un réalisateur");
@@ -177,6 +178,7 @@ public class DirectorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/directors/delete/{id}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView delete(@PathVariable int id)
     {
         // Initialize vars

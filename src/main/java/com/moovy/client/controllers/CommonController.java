@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.annotations.RequiresLogin;
 import com.moovy.client.services.StatisticsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +32,7 @@ public class CommonController extends AbstractController
      * @return The view to render.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView home()
     {
         // Build model

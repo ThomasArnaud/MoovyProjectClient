@@ -15,7 +15,7 @@ public abstract class AbstractService
     /**
      * The webservices' host.
      */
-    protected static final String HOST = "http://localhost:8080/";
+    protected static final String HOST = "http://localhost:8080/MoovyServer/";
 
     /**
      *

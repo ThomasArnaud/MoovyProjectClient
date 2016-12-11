@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.annotations.RequiresLogin;
 import com.moovy.client.editors.ActorEditor;
 import com.moovy.client.editors.CategoryEditor;
 import com.moovy.client.editors.DirectorEditor;
@@ -83,13 +84,13 @@ public class MoviesController extends AbstractController
      * @return The view to render.
      */
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView moviesList()
     {
         // Set up some fake data
         ModelMap model = new ModelMap();
         MoviesService moviesService = new MoviesService();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("moviesList", moviesService.fetchAll());
 
         return this.render("movies/list", model);
@@ -101,6 +102,7 @@ public class MoviesController extends AbstractController
      * @return The view to render.
      */
     @RequestMapping(value = "/movies/add", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView moviesAdd()
     {
         // Build model
@@ -108,7 +110,6 @@ public class MoviesController extends AbstractController
         DirectorsService directorsService = new DirectorsService();
         CategoriesService categoriesService = new CategoriesService();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "movies_add");
         model.addAttribute("_page_title", "Ajouter un film");
         model.addAttribute("_body_title", "Ajouter un film");
@@ -126,6 +127,7 @@ public class MoviesController extends AbstractController
      * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/movies/edit/{id}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView moviesEdit(@PathVariable int id)
     {
         // Initialize vars
@@ -139,7 +141,6 @@ public class MoviesController extends AbstractController
             DirectorsService directorsService = new DirectorsService();
             CategoriesService categoriesService = new CategoriesService();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("_page_current", "movies_edit");
             model.addAttribute("_page_title", "Éditer un film");
             model.addAttribute("_body_title", "Éditer un film");
@@ -170,6 +171,7 @@ public class MoviesController extends AbstractController
      * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/movies/submit", method = RequestMethod.POST)
+    @RequiresLogin
     public ModelAndView moviesSubmit(
         @ModelAttribute("movie") @Validated Movie movie,
         BindingResult result,
@@ -200,7 +202,6 @@ public class MoviesController extends AbstractController
             DirectorsService directorsService = new DirectorsService();
             CategoriesService categoriesService = new CategoriesService();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("_page_current", isNew ? "movies_add" : "movies_edit");
             model.addAttribute("_page_title", isNew ? "Ajouter un film" : "Éditer un film");
             model.addAttribute("_body_title", isNew ? "Ajouter un film" : "Éditer un film");
@@ -219,6 +220,7 @@ public class MoviesController extends AbstractController
      * @return A redirection.
      */
     @RequestMapping(value = "/movies/delete/{id}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView moviesDelete(@PathVariable int id)
     {
         // Initialize vars
@@ -259,13 +261,13 @@ public class MoviesController extends AbstractController
      * @return The view to render.
      */
     @RequestMapping(value = "/movies/categories", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView categoriesList()
     {
         // Set up some fake data
         ModelMap model = new ModelMap();
         CategoriesService categoriesService= new CategoriesService();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("categoriesList", categoriesService.fetchAll());
 
         return this.render("movies/categories/list", model);
@@ -277,12 +279,12 @@ public class MoviesController extends AbstractController
      * @return The view to render.
      */
     @RequestMapping(value = "/movies/categories/add", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView categoriesAdd()
     {
         // Build model
         ModelMap model = new ModelMap();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("category", new Category());
 
         return this.render("movies/categories/add", model);
@@ -295,6 +297,7 @@ public class MoviesController extends AbstractController
      * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/movies/categories/edit/{code}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView categoriesEdit(@PathVariable String code)
     {
         // Initialize vars
@@ -306,7 +309,6 @@ public class MoviesController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("category", category);
 
             return this.render("movies/categories/edit", model);
@@ -332,6 +334,7 @@ public class MoviesController extends AbstractController
      * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/movies/categories/submit", method = RequestMethod.POST)
+    @RequiresLogin
     public ModelAndView categoriesSubmit(
         @ModelAttribute("category") @Validated Category category,
         BindingResult result,
@@ -360,7 +363,6 @@ public class MoviesController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("category", category);
 
             return this.render("movies/categories/" + (isNew ? "add" : "edit"), model);
@@ -374,6 +376,7 @@ public class MoviesController extends AbstractController
      * @return A redirection.
      */
     @RequestMapping(value = "/movies/categories/delete/{code}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView categoriesDelete(@PathVariable String code)
     {
         // Initialize vars
@@ -416,6 +419,7 @@ public class MoviesController extends AbstractController
      * @see <a href="http://viralpatel.net/blogs/spring-mvc-multi-row-submit-java-list/">http://viralpatel.net/blogs/spring-mvc-multi-row-submit-java-list/</a>
      */
     @RequestMapping(value = "/movies/{movieId}/characters", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView charactersEdit(@PathVariable int movieId)
     {
         // Initialize vars
@@ -428,7 +432,6 @@ public class MoviesController extends AbstractController
             ModelMap model = new ModelMap();
             ActorsService actorsService = new ActorsService();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("movie", movie);
             model.addAttribute("actorsList", actorsService.fetchAll());
 
@@ -455,6 +458,7 @@ public class MoviesController extends AbstractController
      * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/movies/{movieId}/characters/submit", method = RequestMethod.POST)
+    @RequiresLogin
     public ModelAndView charactersSubmit(
         @ModelAttribute("movie") @Validated Movie movie,
         BindingResult result,
@@ -563,11 +567,8 @@ public class MoviesController extends AbstractController
             ModelMap model = new ModelMap();
             ActorsService actorsService = new ActorsService();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("movie", movie);
             model.addAttribute("actorsList", actorsService.fetchAll());
-//            model.addAttribute("newActorsList", newActors);
-//            model.addAttribute("newCharactersList", newCharacters);
 
             return this.render("movies/characters", model);
         }

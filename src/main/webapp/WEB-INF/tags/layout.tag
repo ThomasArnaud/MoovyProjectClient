@@ -1,6 +1,7 @@
 <%@tag pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@attribute name="_page_title" fragment="true" required="false" %>
 <%@attribute name="_page_stylesheets" fragment="true" required="false" %>
@@ -52,15 +53,16 @@
                         <ul class="nav navbar-nav">
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Prénom Nom
+                                    <c:out value="${_user.firstName} ${_user.lastName}" />
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
                                         <p>
-                                            Prénom Nom
-                                            <small>Membre depuis Date</small>
+                                            <c:out value="${_user.firstName} ${_user.lastName}" />
+                                            <small>Membre depuis <fmt:formatDate value="${_user.createdAt}" /></small>
                                         </p>
                                     </li>
+                                    <%--
                                     <li class="user-body">
                                         <div class="row">
                                             <div class="col-xs-4 text-center">
@@ -74,9 +76,10 @@
                                             </div>
                                         </div>
                                     </li>
+                                    --%>
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">
+                                            <a href="#" class="btn btn-default btn-flat disabled" title="L'édition de profil sera disponible dans une prochaine version.">
                                                 Profil
                                             </a>
                                         </div>

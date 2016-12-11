@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.annotations.RequiresLogin;
 import com.moovy.client.services.ActorsService;
 import com.moovy.client.services.DirectorsService;
 import com.moovy.client.services.MoviesService;
@@ -32,6 +33,7 @@ public class SearchController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView search()
     {
         // Initialize vars
@@ -49,10 +51,6 @@ public class SearchController extends AbstractController
             model.addAttribute("moviesList", moviesService.search(query));
             model.addAttribute("actorsList", actorsService.search(query));
             model.addAttribute("directorsList", directorsService.search(query));
-        }
-        else
-        {
-
         }
 
         return this.render("search/results", model);

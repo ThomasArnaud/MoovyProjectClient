@@ -1,5 +1,6 @@
 package com.moovy.client.controllers;
 
+import com.moovy.client.annotations.RequiresLogin;
 import com.moovy.client.entities.Actor;
 import com.moovy.client.services.ActorsService;
 import com.moovy.client.utils.DateUtils;
@@ -43,7 +44,7 @@ public class ActorsController extends AbstractController
      *
      * @param binder The binder to initialize.
      */
-    @InitBinder
+    @InitBinder("actor")
     protected void initBinder(WebDataBinder binder)
     {
         binder.setValidator(new ActorValidator());
@@ -56,13 +57,13 @@ public class ActorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/actors", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView list()
     {
         // Set up some fake data
         ModelMap model = new ModelMap();
         ActorsService actorsService = new ActorsService();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("actorsList", actorsService.fetchAll());
 
         return this.render("actors/list", model);
@@ -74,12 +75,12 @@ public class ActorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/actors/add", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView add()
     {
         // Build model
         ModelMap model = new ModelMap();
 
-        model.addAttribute("_flashMessages", this.getAndClearFlashList());
         model.addAttribute("_page_current", "actors_add");
         model.addAttribute("_page_title", "Ajouter un acteur");
         model.addAttribute("_body_title", "Ajouter un acteur");
@@ -95,6 +96,7 @@ public class ActorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/actors/edit/{id}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView edit(@PathVariable int id)
     {
         // Initialize vars
@@ -106,7 +108,6 @@ public class ActorsController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("_page_current", "actors_edit");
             model.addAttribute("_page_title", "Éditer un acteur");
             model.addAttribute("_body_title", "Éditer un acteur");
@@ -135,6 +136,7 @@ public class ActorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/actors/submit", method = RequestMethod.POST)
+    @RequiresLogin
     public ModelAndView submit(
         @ModelAttribute("actor") @Validated Actor actor,
         BindingResult result,
@@ -164,7 +166,6 @@ public class ActorsController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
-            model.addAttribute("_flashMessages", this.getAndClearFlashList());
             model.addAttribute("_page_current", isNew ? "actors_add" : "actors_edit");
             model.addAttribute("_page_title", isNew ? "Ajouter un acteur" : "Éditer un acteur");
             model.addAttribute("_body_title", isNew ? "Ajouter un acteur" : "Éditer un acteur");
@@ -181,6 +182,7 @@ public class ActorsController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/actors/delete/{id}", method = RequestMethod.GET)
+    @RequiresLogin
     public ModelAndView delete(@PathVariable int id)
     {
         // Initialize vars
