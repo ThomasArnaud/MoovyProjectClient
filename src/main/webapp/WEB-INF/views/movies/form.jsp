@@ -200,7 +200,7 @@
                         </div>
                     </spring:bind>
                     <div class="form-group">
-                        <div class="col-sm-10 col-sm-offset-2 btn-group">
+                        <div class="col-sm-10 col-sm-offset-2">
                             <button type="submit" class="btn btn-success">
                                 Enregistrer
                             </button>
@@ -211,6 +211,12 @@
                             <a href="${_url}" class="btn btn-default">
                                 Retour à la liste
                             </a>
+                            <c:if test="${not empty movie.id && movie.id gt 0}">
+                                <c:url value="/movies/${movie.id}/characters" var="_url" />
+                                <a href="${_url}" class="btn btn-default">
+                                    Aller aux personnages
+                                </a>
+                            </c:if>
                         </div>
                     </div>
                 </form:form>
