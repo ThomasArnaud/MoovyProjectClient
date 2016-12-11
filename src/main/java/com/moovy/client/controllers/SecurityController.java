@@ -7,12 +7,16 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -140,7 +144,12 @@ public class SecurityController extends AbstractController
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register()
     {
-        return this.render("security/register");
+        // Build model
+        ModelMap model = new ModelMap();
+
+        model.addAttribute("user", new User());
+
+        return this.render("security/register", model);
     }
 
     /**
@@ -149,8 +158,31 @@ public class SecurityController extends AbstractController
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView doRegister()
+    public ModelAndView doRegister(
+        @ModelAttribute("user") @Validated User user,
+        BindingResult result,
+        @RequestParam(value = "password_confirmation", required = false) String passwordConfirmation
+    )
     {
-        return this.render("security/register");
+        if(!result.hasErrors())
+        {
+            // Set creation date
+            user.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+
+            // Register user
+            UsersService usersService = new UsersService();
+            usersService.save(user);
+
+            return this.redirect("/login");
+        }
+        else
+        {
+            // Build model
+            ModelMap model = new ModelMap();
+
+            model.addAttribute("user", user);
+
+            return this.render("security/register", model);
+        }
     }
 }
