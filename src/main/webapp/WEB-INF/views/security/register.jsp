@@ -1,6 +1,8 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,44 +41,81 @@
                     Inscrivez-vous pour bénéficier des services de Moovy.
                 </p>
                 <c:url value="/register" var="_url" />
-                <form action="${fn:escapeXml(_url)}" method="post">
-                    <div class="form-group has-feedback">
-                        <input type="email" class="form-control" name="email" placeholder="Adresse email">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmation">
+                <form:form method="post" action="${fn:escapeXml(_url)}" modelAttribute="user">
+                    <spring:bind path="email">
+                        <div class="form-group has-feedback ${status.error ? "has-error" : ""}">
+                            <form:input
+                                path="email"
+                                type="email"
+                                cssClass="form-control"
+                                id="email"
+                                placeholder="Adresse e-mail"
+                            />
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                            <form:errors path="email" cssClass="help-block" />
+                        </div>
+                    </spring:bind>
+                    <spring:bind path="password">
+                        <div class="form-group has-feedback ${status.error ? "has-error" : ""}">
+                            <form:input
+                                path="password"
+                                type="password"
+                                cssClass="form-control"
+                                id="password"
+                                placeholder="Mot de passe"
+                            />
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            <form:errors path="password" cssClass="help-block" />
+                        </div>
+                    </spring:bind>
+                    <div class="form-group has-feedback<c:if test="${false}"> has-error</c:if>">
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmation" />
                         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                        <c:if test="${false}">
+                            <span class="help-block"></span>
+                        </c:if>
                     </div>
-                    <div class="form-group has-feedback">
-                        <input type="text" class="form-control" name="first_name" placeholder="Prénom">
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input type="text" class="form-control" name="last_name" placeholder="Nom">
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
+                    <spring:bind path="firstName">
+                        <div class="form-group has-feedback ${status.error ? "has-error" : ""}">
+                            <form:input
+                                path="firstName"
+                                type="text"
+                                cssClass="form-control"
+                                id="firstName"
+                                placeholder="Prénom"
+                            />
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            <form:errors path="firstName" cssClass="help-block" />
+                        </div>
+                    </spring:bind>
+                    <spring:bind path="lastName">
+                        <div class="form-group has-feedback ${status.error ? "has-error" : ""}">
+                            <form:input
+                                path="lastName"
+                                type="text"
+                                cssClass="form-control"
+                                id="lastName"
+                                placeholder="Nom"
+                            />
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            <form:errors path="lastName" cssClass="help-block" />
+                        </div>
+                    </spring:bind>
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="checkbox icheck">
                                 <label for="terms">
-                                    <c:url value="/terms" var="_url" />
                                     <input type="checkbox" name="terms" id="terms" />
+                                    <c:url value="/terms" var="_url" />
                                     J'accepte les <a href="${fn:escapeXml(_url)}">conditions d'utilisation</a>
                                 </label>
                             </div>
                         </div>
-                        <!-- /.col -->
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-default btn-block btn-flat">Inscription</button>
                         </div>
-                        <!-- /.col -->
                     </div>
-                </form>
+                </form:form>
                 <p class="text-center margin-top-10-sm" style="margin-bottom: 0;">
                     <c:url value="/login" var="_url" />
                     <a href="${fn:escapeXml(_url)}">

@@ -161,9 +161,22 @@ public class SecurityController extends AbstractController
     public ModelAndView doRegister(
         @ModelAttribute("user") @Validated User user,
         BindingResult result,
-        @RequestParam(value = "password_confirmation", required = false) String passwordConfirmation
+        @RequestParam(value = "password_confirmation", required = false) String passwordConfirmation,
+        @RequestParam(value = "terms", required = false) boolean termsAccepted
     )
     {
+        if(passwordConfirmation != null && !passwordConfirmation.trim().isEmpty())
+        {
+            if(!passwordConfirmation.equals(user.getPassword()))
+            {
+                result.rejectValue("password", null, "Votre mot de passe est différent de sa confirmation.");
+            }
+        }
+        else
+        {
+
+        }
+
         if(!result.hasErrors())
         {
             // Set creation date

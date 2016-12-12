@@ -1,6 +1,7 @@
 package com.moovy.client.validators;
 
 import com.moovy.client.entities.User;
+import com.moovy.client.utils.EmailUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -38,7 +39,15 @@ public class UserValidator implements Validator
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", null, "Vous devez préciser votre prénom.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", null, "Vous devez préciser votre nom.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", null, "Vous devez préciser votre adresse e-mail.");
-            // ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", null, "Vous devez préciser votre mot de passe.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", null, "Vous devez préciser votre mot de passe.");
+
+            // More specific validations
+            User user = (User) target;
+
+            if(user.getEmail() != null && !EmailUtils.isValid(user.getEmail()))
+            {
+                errors.rejectValue("email", null, "Le format de votre adresse e-mail est invalide");
+            }
         }
     }
 }

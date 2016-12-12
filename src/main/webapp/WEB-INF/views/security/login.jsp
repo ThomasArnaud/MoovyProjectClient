@@ -18,7 +18,11 @@
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         <c:url value="/assets/css/skin-black-light.min.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
+        <%--
         <c:url value="/assets/css/icheck-square-grey.css" var="_url" />
+        <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
+        --%>
+        <c:url value="/assets/css/common.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -58,6 +62,9 @@
                         </p>
                     </c:if>
                     <div class="row">
+                        <div class="col-sm-6 margin-top-10-sm">
+                            <button type="submit" class="btn btn-default btn-block btn-flat">Connexion</button>
+                        </div>
                         <div class="col-sm-6">
                             <c:url value="/register" var="_url" />
                             <a href="${fn:escapeXml(_url)}" class="btn btn-default btn-block btn-flat">
@@ -70,9 +77,6 @@
                                 </label>
                             </div>
                             --%>
-                        </div>
-                        <div class="col-sm-6">
-                            <button type="submit" class="btn btn-default btn-block btn-flat">Connexion</button>
                         </div>
                     </div>
                 </form>
