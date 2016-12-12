@@ -62,10 +62,10 @@
                         </p>
                     </c:if>
                     <div class="row">
-                        <div class="col-sm-6 margin-top-10-sm">
+                        <div class="col-sm-6">
                             <button type="submit" class="btn btn-default btn-block btn-flat">Connexion</button>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 margin-top-15-sm">
                             <c:url value="/register" var="_url" />
                             <a href="${fn:escapeXml(_url)}" class="btn btn-default btn-block btn-flat">
                                 Inscrivez-vous
