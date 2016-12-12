@@ -5,13 +5,14 @@ import com.moovy.client.entities.Character;
 import com.moovy.client.entities.CharacterPK;
 import com.moovy.client.entities.Movie;
 
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.UriBuilder;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -217,7 +218,11 @@ public class MoviesService extends AbstractService
      */
     public Movie fetch(int id)
     {
-        return MoviesService.fakeMovies.getOrDefault(id, null);
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/movies/" + id);
+
+        return this.doGet(uriBuilder.build(), Movie.class);
     }
 
     /**
@@ -227,7 +232,11 @@ public class MoviesService extends AbstractService
      */
     public List<Movie> fetchAll()
     {
-        return new ArrayList<>(MoviesService.fakeMovies.values());
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/movies");
+
+        return this.doGet(uriBuilder.build(), new GenericType<List<Movie>>(){});
     }
 
     /**
@@ -238,19 +247,12 @@ public class MoviesService extends AbstractService
      */
     public List<Movie> search(String query)
     {
-        // Build fake data
-        List<Movie> fakeMovies = new ArrayList<>();
-        Pattern queryPattern = Pattern.compile(".*" + query + ".*", Pattern.CASE_INSENSITIVE);
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/movies");
+        uriBuilder.queryParam("query", query);
 
-        for(Map.Entry<Integer, Movie> entry : MoviesService.fakeMovies.entrySet())
-        {
-            if(queryPattern.matcher(entry.getValue().getTitle()).matches())
-            {
-                fakeMovies.add(entry.getValue());
-            }
-        }
-
-        return fakeMovies;
+        return this.doGet(uriBuilder.build(), new GenericType<List<Movie>>(){});
     }
 
     /**
@@ -260,7 +262,19 @@ public class MoviesService extends AbstractService
      */
     public void save(Movie movie)
     {
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
 
+        if(movie.getId() != 0)
+        {
+            uriBuilder.path("/movies/" + movie.getId());
+            this.doPut(uriBuilder.build(), movie);
+        }
+        else
+        {
+            uriBuilder.path("/movies");
+            this.doPost(uriBuilder.build(), movie);
+        }
     }
 
     /**
@@ -270,6 +284,10 @@ public class MoviesService extends AbstractService
      */
     public void delete(Movie movie)
     {
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/movies/" + movie.getId());
 
+        this.doDelete(uriBuilder.build());
     }
 }

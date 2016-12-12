@@ -2,8 +2,12 @@ package com.moovy.client.services;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -22,29 +26,29 @@ public abstract class AbstractService
      */
     private static Client client;
 
-    /**
-     *
-     */
-    private static WebTarget target;
-
     /*
      * @see http://stackoverflow.com/questions/17366266/jax-rs-2-0-change-default-implementation
      */
     static
     {
         AbstractService.client = ClientBuilder.newClient();
-        AbstractService.target = client.target(AbstractService.HOST);
     }
 
     /**
-     * Performs a GET HTTP call.
+     * Performs a GET HTTP request.
      *
-     * @param path
+     * @param uri The service's URI.
+     * @param type The response's type.
      */
-    protected <T> T doGet(String path, Class<T> type)
+    protected <T> T doGet(URI uri, Class<T> type)
     {
-        return AbstractService.target
-            .path(path)
+        // Initialize vars
+        WebTarget target = AbstractService.client.target(uri);
+
+        System.out.println("GET " + uri.toString());
+
+        // Perform request
+        return target
             .request()
             .accept(MediaType.APPLICATION_JSON)
             .get(type)
@@ -52,29 +56,85 @@ public abstract class AbstractService
     }
 
     /**
-     * Performs a POST HTTP call.
+     * Performs a GET HTTP request.
      *
-     * @param path
+     * @param uri The service's URI.
+     * @param type The response's type.
      */
-    protected void doPost(String path)
+    protected <T> T doGet(URI uri, GenericType<T> type)
     {
+        // Initialize vars
+        WebTarget target = AbstractService.client.target(uri);
+
+        System.out.println("GET " + uri.toString());
+
+        // Perform request
+        return target
+            .request()
+            .accept(MediaType.APPLICATION_JSON)
+            .get(type)
+        ;
     }
 
     /**
-     * Performs a PUT HTTP call.
+     * Performs a POST HTTP request.
      *
-     * @param path
+     * @param uri The service's URI.
+     * @param entity The entity to send with the request.
      */
-    protected void doPut(String path)
+    protected <T> Response doPost(URI uri, Object entity)
     {
+        // Initialize vars
+        WebTarget target = AbstractService.client.target(uri);
+
+        System.out.println("POST " + uri.toString());
+
+        // Perform request
+        return target
+            .request()
+            .accept(MediaType.APPLICATION_JSON)
+            .post(Entity.json(entity))
+        ;
     }
 
     /**
-     * Performs a DELETE HTTP call.
+     * Performs a PUT HTTP request.
      *
-     * @param path
+     * @param uri The service's URI.
+     * @param entity The entity to send with the request.
      */
-    protected void doDelete(String path)
+    protected <T> Response doPut(URI uri, Object entity)
     {
+        // Initialize vars
+        WebTarget target = AbstractService.client.target(uri);
+
+        System.out.println("PUT " + uri.toString());
+
+        // Perform request
+        return target
+            .request()
+            .accept(MediaType.APPLICATION_JSON)
+            .put(Entity.json(entity))
+        ;
+    }
+
+    /**
+     * Performs a DELETE HTTP request.
+     *
+     * @param uri
+     */
+    protected Response doDelete(URI uri)
+    {
+        // Initialize vars
+        WebTarget target = AbstractService.client.target(uri);
+
+        System.out.println("DELETE " + uri.toString());
+
+        // Perform request
+        return target
+            .request()
+            .accept(MediaType.APPLICATION_JSON)
+            .delete()
+        ;
     }
 }
