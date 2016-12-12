@@ -32,7 +32,7 @@
                             <c:forEach items="${movie.characters}" var="character">
                                 charactersArray[${movie.id}].push({
                                     name: "<c:out value="${character.name}" />",
-                                    actor: "<c:out value="${character.actor.firstName} ${character.actor.lastName}" />"
+                                    actor: "<c:out value="${character.id.actor.firstName} ${character.id.actor.lastName}" />"
                                 });
                             </c:forEach>
                         </c:if>
@@ -142,8 +142,8 @@
                                             <td data-order="${movie.budget}">
                                                 <fmt:formatNumber value="${movie.budget}" type="currency" />
                                             </td>
-                                            <td data-order="${movie.profit}">
-                                                <fmt:formatNumber value="${movie.profit}" type="currency" />
+                                            <td data-order="${movie.benefit}">
+                                                <fmt:formatNumber value="${movie.benefit}" type="currency" />
                                             </td>
                                             <td>
                                                 <c:out value="${movie.director.firstName} ${movie.director.lastName}" />

@@ -141,18 +141,18 @@
                             </div>
                         </div>
                     </spring:bind>
-                    <spring:bind path="profit">
+                    <spring:bind path="benefit">
                         <div class="form-group ${status.error ? "has-error" : ""}">
-                            <form:label path="profit" for="profit" cssClass="control-label col-sm-2">
+                            <form:label path="benefit" for="benefit" cssClass="control-label col-sm-2">
                                 Bénéfices*
                             </form:label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <form:input
-                                        path="profit"
+                                        path="benefit"
                                         type="number"
                                         cssClass="form-control"
-                                        id="profit"
+                                        id="benefit"
                                         min="0"
                                         step="1"
                                     />
@@ -160,7 +160,7 @@
                                         <i class="fa fa-dollar"></i>
                                     </span>
                                 </div>
-                                <form:errors path="profit" cssClass="help-block" />
+                                <form:errors path="benefit" cssClass="help-block" />
                             </div>
                         </div>
                     </spring:bind>

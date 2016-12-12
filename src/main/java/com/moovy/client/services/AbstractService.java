@@ -41,13 +41,13 @@ public abstract class AbstractService
      *
      * @param path
      */
-    protected String doGet(String path)
+    protected <T> T doGet(String path, Class<T> type)
     {
         return AbstractService.target
             .path(path)
             .request()
             .accept(MediaType.APPLICATION_JSON)
-            .get(String.class)
+            .get(type)
         ;
     }
 

@@ -1,7 +1,6 @@
 package com.moovy.client.entities;
 
-import java.lang.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -11,27 +10,19 @@ import java.util.List;
  */
 public class Movie
 {
-    protected int id;
-
-    protected String title;
-
-    protected int duration;
-
-    protected Date releaseDate;
-    protected int budget;
-    protected int profit;
-    protected Director director;
-    protected List<Character> characters;
-    protected List<Category> categories;
+    private int id;
+    private String title;
+    private int duration;
+    private Date releaseDate;
+    private int budget;
     private int benefit;
-
-    public void setReleaseDate(java.sql.Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
+    private List<Character> characters;
+    private Director director;
+    private List<Category> categories;
 
     public int getId()
     {
-        return this.id;
+        return id;
     }
 
     public void setId(int id)
@@ -41,7 +32,7 @@ public class Movie
 
     public String getTitle()
     {
-        return this.title;
+        return title;
     }
 
     public void setTitle(String title)
@@ -51,7 +42,7 @@ public class Movie
 
     public int getDuration()
     {
-        return this.duration;
+        return duration;
     }
 
     public void setDuration(int duration)
@@ -61,7 +52,7 @@ public class Movie
 
     public Date getReleaseDate()
     {
-        return this.releaseDate;
+        return releaseDate;
     }
 
     public void setReleaseDate(Date releaseDate)
@@ -71,7 +62,7 @@ public class Movie
 
     public int getBudget()
     {
-        return this.budget;
+        return budget;
     }
 
     public void setBudget(int budget)
@@ -79,29 +70,73 @@ public class Movie
         this.budget = budget;
     }
 
-    public int getProfit()
+    public int getBenefit()
     {
-        return this.profit;
+        return benefit;
     }
 
-    public void setProfit(int profit)
+    public void setBenefit(int benefit)
     {
-        this.profit = profit;
+        this.benefit = benefit;
     }
 
-    public Director getDirector()
+    @Override
+    public boolean equals(Object o)
     {
-        return this.director;
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        Movie movie = (Movie) o;
+
+        if (id != movie.id)
+        {
+            return false;
+        }
+        if (duration != movie.duration)
+        {
+            return false;
+        }
+        if (budget != movie.budget)
+        {
+            return false;
+        }
+        if (benefit != movie.benefit)
+        {
+            return false;
+        }
+        if (title != null ? !title.equals(movie.title) : movie.title != null)
+        {
+            return false;
+        }
+        if (releaseDate != null ? !releaseDate.equals(movie.releaseDate) : movie.releaseDate != null)
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    public void setDirector(Director director)
+    @Override
+    public int hashCode()
     {
-        this.director = director;
+        int result = id;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + duration;
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + budget;
+        result = 31 * result + benefit;
+        return result;
     }
 
     public List<Character> getCharacters()
     {
-        return this.characters;
+        return characters;
     }
 
     public void setCharacters(List<Character> characters)
@@ -114,47 +149,23 @@ public class Movie
         this.characters.add(character);
     }
 
-    public List<Category> getCategories() {
-        return this.categories;
+    public Director getDirector()
+    {
+        return director;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setDirector(Director director)
+    {
+        this.director = director;
+    }
+
+    public List<Category> getCategories()
+    {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories)
+    {
         this.categories = categories;
-    }
-
-    public int getBenefit() {
-        return benefit;
-    }
-
-    public void setBenefit(int benefit) {
-        this.benefit = benefit;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Movie movie = (Movie) o;
-
-        if (id != movie.id) return false;
-        if (duration != movie.duration) return false;
-        if (budget != movie.budget) return false;
-        if (benefit != movie.benefit) return false;
-        if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
-        if (releaseDate != null ? !releaseDate.equals(movie.releaseDate) : movie.releaseDate != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + duration;
-        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
-        result = 31 * result + budget;
-        result = 31 * result + benefit;
-        return result;
     }
 }

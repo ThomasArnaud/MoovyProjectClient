@@ -7,6 +7,7 @@ import com.moovy.client.editors.DirectorEditor;
 import com.moovy.client.entities.Actor;
 import com.moovy.client.entities.Category;
 import com.moovy.client.entities.Character;
+import com.moovy.client.entities.CharacterPK;
 import com.moovy.client.entities.Director;
 import com.moovy.client.entities.Movie;
 import com.moovy.client.services.ActorsService;
@@ -504,12 +505,12 @@ public class MoviesController extends AbstractController
                     for(i = 0; i < newCharactersNumber; i++)
                     {
                         Character newCharacter = new Character();
+                        CharacterPK newPrimaryKey = new CharacterPK();
 
-                        newCharacter.setMovie(movie);
-                        newCharacter.setIdMovie(movie.getId()); // @todo Is it necessary?
+                        newPrimaryKey.setMovie(movie);
+                        newPrimaryKey.setActor(actorsService.fetch(newActors.get(i)));
+                        newCharacter.setId(newPrimaryKey);
                         newCharacter.setName(newCharacters.get(i));
-                        newCharacter.setActor(actorsService.fetch(newActors.get(i)));
-                        newCharacter.setIdActor(newActors.get(i)); // @todo Is it necessary?
 
                         movie.addCharacter(newCharacter);
                     }
@@ -520,7 +521,7 @@ public class MoviesController extends AbstractController
 
                 for(Character character : movie.getCharacters())
                 {
-                    actorsCount.put(character.getActor(), actorsCount.getOrDefault(character.getActor(), 0) + 1);
+                    actorsCount.put(character.getId().getActor(), actorsCount.getOrDefault(character.getId().getActor(), 0) + 1);
                 }
 
                 StringBuilder duplicatedActorsBuilder = new StringBuilder();
