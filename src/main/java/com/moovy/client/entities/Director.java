@@ -1,5 +1,7 @@
 package com.moovy.client.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 /**
@@ -44,6 +46,7 @@ public class Director
         this.firstName = firstName;
     }
 
+    @JsonIgnore
     public String getFullName()
     {
         return this.firstName + " " + this.lastName;

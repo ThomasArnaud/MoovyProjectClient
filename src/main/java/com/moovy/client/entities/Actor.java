@@ -1,5 +1,7 @@
 package com.moovy.client.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Date;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class Actor
         this.firstName = firstName;
     }
 
+    @JsonIgnore
     public String getFullName()
     {
         return this.firstName + " " + this.lastName;
