@@ -1,8 +1,10 @@
 package com.moovy.client.services;
 
-import java.util.HashMap;
+import com.moovy.client.utils.RestUtils;
+
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.UriBuilder;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -16,16 +18,12 @@ public class StatisticsService extends AbstractService
      *
      * @return The wanted statistics.
      */
-    public Map<String, Integer> fetchAll()
+    public Map<String, Long> fetchAll()
     {
-        Map<String, Integer> fakeStatistics = new HashMap<>();
-        Random randomizer = new Random();
+        // Build URI
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
+        uriBuilder.path("/statistics/dashboard");
 
-        fakeStatistics.put("usersNumber", 1 + randomizer.nextInt(100));
-        fakeStatistics.put("moviesNumber", 1 + randomizer.nextInt(100));
-        fakeStatistics.put("actorsNumber", 1 + randomizer.nextInt(100));
-        fakeStatistics.put("directorsNumber", 1 + randomizer.nextInt(100));
-
-        return fakeStatistics;
+        return this.doGet(uriBuilder.build(), new GenericType<Map<String, Long>>(){});
     }
 }

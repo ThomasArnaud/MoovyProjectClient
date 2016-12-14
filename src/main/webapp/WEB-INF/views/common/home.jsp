@@ -20,7 +20,7 @@
                     </span>
                     <div class="info-box-content">
                         <span class="info-box-text">Utilisateurs</span>
-                        <span class="info-box-number"><fmt:formatNumber value="${statistics.usersNumber}" /></span>
+                        <span class="info-box-number"><fmt:formatNumber value="${statistics.users}" /></span>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                     </span>
                     <div class="info-box-content">
                         <span class="info-box-text">Films</span>
-                        <span class="info-box-number"><fmt:formatNumber value="${statistics.moviesNumber}" /></span>
+                        <span class="info-box-number"><fmt:formatNumber value="${statistics.movies}" /></span>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     </span>
                     <div class="info-box-content">
                         <span class="info-box-text">Acteurs</span>
-                        <span class="info-box-number"><fmt:formatNumber value="${statistics.actorsNumber}" /></span>
+                        <span class="info-box-number"><fmt:formatNumber value="${statistics.actors}" /></span>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     </span>
                     <div class="info-box-content">
                         <span class="info-box-text">Réalisateurs</span>
-                        <span class="info-box-number"><fmt:formatNumber value="${statistics.directorsNumber}" /></span>
+                        <span class="info-box-number"><fmt:formatNumber value="${statistics.directors}" /></span>
                     </div>
                 </div>
             </div>
