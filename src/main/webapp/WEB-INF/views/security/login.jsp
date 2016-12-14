@@ -36,6 +36,14 @@
             <div class="login-logo">
                 Moovy
             </div>
+            <c:if test="${not empty _flashMessages && fn:length(_flashMessages) gt 0}">
+                <c:forEach items="${_flashMessages}" var="flashMessage">
+                    <div class="alert alert-${flashMessage.type} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            ${flashMessage.contents}
+                    </div>
+                </c:forEach>
+            </c:if>
             <div class="login-box-body">
                 <p class="login-box-msg">
                     Connectez-vous pour accéder aux services de Moovy.

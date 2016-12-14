@@ -22,7 +22,7 @@
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         <c:url value="/assets/css/icheck-square-grey.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
-        <c:url value="/assets/css/common.css" var="_url" />
+        <c:url value="/assets/css/common.min.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,6 +36,14 @@
             <div class="register-logo">
                 Moovy
             </div>
+            <c:if test="${not empty _flashMessages && fn:length(_flashMessages) gt 0}">
+                <c:forEach items="${_flashMessages}" var="flashMessage">
+                    <div class="alert alert-${flashMessage.type} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            ${flashMessage.contents}
+                    </div>
+                </c:forEach>
+            </c:if>
             <div class="register-box-body">
                 <p class="register-box-msg">
                     Inscrivez-vous pour bénéficier des services de Moovy.

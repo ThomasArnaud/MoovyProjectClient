@@ -14,10 +14,16 @@ import java.io.IOException;
 public class FormatMinutesTag extends SimpleTagSupport
 {
     /**
-     *
+     * The value, in minutes, to output.
      */
     protected int value;
 
+    /**
+     * Prints the value formatted in hours and minutes.
+     *
+     * @throws JspException If a JSP error happens.
+     * @throws IOException If a I/O error happens.
+     */
     @Override
     public void doTag()
     throws JspException, IOException
@@ -44,6 +50,11 @@ public class FormatMinutesTag extends SimpleTagSupport
         writer.println(stringBuilder.toString());
     }
 
+    /**
+     * Sets the value, in minutes, to output.
+     *
+     * @param value The value.
+     */
     public void setValue(int value)
     {
         this.value = value;

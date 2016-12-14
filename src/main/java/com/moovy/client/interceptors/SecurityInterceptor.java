@@ -15,6 +15,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SecurityInterceptor extends HandlerInterceptorAdapter
 {
+    /**
+     * Tests if the user needs to be logged in.
+     *
+     * @param request The user's request.
+     * @param response The current response.
+     * @param handler The handler supposed to be called.
+     * @return {@code true} if the chain of interceptors can continue, {@code false} otherwise.
+     * @throws Exception If any error happens.
+     */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
     throws Exception
     {
@@ -24,7 +33,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             RequiresLogin requiresLogin = handlerMethod.getMethodAnnotation(RequiresLogin.class);
 
-            // IS the method annotated and does it need the user to be logged in?
+            // Is the method annotated and does it need the user to be logged in?
             if(requiresLogin != null && requiresLogin.value())
             {
                 User user = (User) request.getSession().getAttribute("_user");
