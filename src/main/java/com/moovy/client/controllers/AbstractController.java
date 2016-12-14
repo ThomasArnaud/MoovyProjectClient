@@ -1,6 +1,5 @@
 package com.moovy.client.controllers;
 
-import com.moovy.client.AbstractException;
 import com.moovy.client.entities.User;
 import com.moovy.client.session.Flash;
 import org.springframework.ui.ModelMap;
@@ -89,17 +88,15 @@ public abstract class AbstractController
      * @param ex The exception that occured.
      * @return A view to display informations about the exception.
      */
-    @ExceptionHandler(AbstractException.class)
-    public ModelAndView exceptionHandler(AbstractException ex)
+    @ExceptionHandler(Exception.class)
+    public ModelAndView exceptionHandler(Exception ex)
     {
-        ModelAndView modelAndView = new ModelAndView("common/error");
+        // Build model
+        ModelMap model = new ModelMap();
 
-        modelAndView.addObject("customTitle", ex.getTitle());
-        modelAndView.addObject("customMessage", ex.getMessage());
-        modelAndView.addObject("errorMessage", ex.getCause().getMessage());
-        modelAndView.addObject("stackTrace", ex.getCause().getStackTrace());
+        model.addAttribute("exception", ex);
 
-        return modelAndView;
+        return this.render("common/error", model);
     }
 
     /**
