@@ -1,6 +1,7 @@
 package com.moovy.client.services;
 
 import com.moovy.client.entities.Category;
+import com.moovy.client.utils.RestUtils;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriBuilder;
@@ -22,7 +23,7 @@ public class CategoriesService extends AbstractService
     public Category fetch(String code)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/categories/" + code);
 
         return this.doGet(uriBuilder.build(), Category.class);
@@ -36,7 +37,7 @@ public class CategoriesService extends AbstractService
     public List<Category> fetchAll()
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/categories");
 
         return this.doGet(uriBuilder.build(), new GenericType<List<Category>>(){});
@@ -50,17 +51,17 @@ public class CategoriesService extends AbstractService
     public void save(Category category)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
 
         if(category.getCode() != null)
         {
             uriBuilder.path("/categories/" + category.getCode());
-            this.doPut(uriBuilder.build(), category);
+            this.doPut(uriBuilder.build(), category).close();
         }
         else
         {
             uriBuilder.path("/categories");
-            this.doPost(uriBuilder.build(), category);
+            this.doPost(uriBuilder.build(), category).close();
         }
     }
 
@@ -72,9 +73,9 @@ public class CategoriesService extends AbstractService
     public void delete(Category category)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/categories/" + category.getCode());
 
-        this.doDelete(uriBuilder.build());
+        this.doDelete(uriBuilder.build()).close();
     }
 }

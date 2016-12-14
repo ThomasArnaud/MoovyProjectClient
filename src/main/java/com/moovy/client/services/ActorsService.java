@@ -1,6 +1,7 @@
 package com.moovy.client.services;
 
 import com.moovy.client.entities.Actor;
+import com.moovy.client.utils.RestUtils;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriBuilder;
@@ -22,7 +23,7 @@ public class ActorsService extends AbstractService
     public Actor fetch(int id)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/actors/" + id);
 
         return this.doGet(uriBuilder.build(), Actor.class);
@@ -36,7 +37,7 @@ public class ActorsService extends AbstractService
     public List<Actor> fetchAll()
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/actors");
 
         return this.doGet(uriBuilder.build(), new GenericType<List<Actor>>(){});
@@ -51,7 +52,7 @@ public class ActorsService extends AbstractService
     public List<Actor> search(String query)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/actors");
         uriBuilder.queryParam("query", query);
 
@@ -66,17 +67,17 @@ public class ActorsService extends AbstractService
     public void save(Actor actor)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
 
         if(actor.getId() != 0)
         {
             uriBuilder.path("/actors/" + actor.getId());
-            this.doPut(uriBuilder.build(), actor);
+            this.doPut(uriBuilder.build(), actor).close();
         }
         else
         {
             uriBuilder.path("/actors");
-            this.doPost(uriBuilder.build(), actor);
+            this.doPost(uriBuilder.build(), actor).close();
         }
     }
 
@@ -88,9 +89,9 @@ public class ActorsService extends AbstractService
     public void delete(Actor actor)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/actors/" + actor.getId());
 
-        this.doDelete(uriBuilder.build());
+        this.doDelete(uriBuilder.build()).close();
     }
 }

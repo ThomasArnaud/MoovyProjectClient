@@ -1,6 +1,7 @@
 package com.moovy.client.services;
 
 import com.moovy.client.entities.Director;
+import com.moovy.client.utils.RestUtils;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriBuilder;
@@ -22,7 +23,7 @@ public class DirectorsService extends AbstractService
     public Director fetch(int id)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/directors/" + id);
 
         return this.doGet(uriBuilder.build(), Director.class);
@@ -36,7 +37,7 @@ public class DirectorsService extends AbstractService
     public List<Director> fetchAll()
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/directors");
 
         return this.doGet(uriBuilder.build(), new GenericType<List<Director>>(){});
@@ -51,7 +52,7 @@ public class DirectorsService extends AbstractService
     public List<Director> search(String query)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/directors");
         uriBuilder.queryParam("query", query);
 
@@ -66,17 +67,17 @@ public class DirectorsService extends AbstractService
     public void save(Director director)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
 
         if(director.getId() != 0)
         {
             uriBuilder.path("/directors/" + director.getId());
-            this.doPut(uriBuilder.build(), director);
+            this.doPut(uriBuilder.build(), director).close();
         }
         else
         {
             uriBuilder.path("/directors");
-            this.doPost(uriBuilder.build(), director);
+            this.doPost(uriBuilder.build(), director).close();
         }
     }
 
@@ -88,9 +89,9 @@ public class DirectorsService extends AbstractService
     public void delete(Director director)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/directors/" + director.getId());
 
-        this.doDelete(uriBuilder.build());
+        this.doDelete(uriBuilder.build()).close();
     }
 }

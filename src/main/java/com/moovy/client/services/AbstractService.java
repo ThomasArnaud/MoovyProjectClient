@@ -1,7 +1,7 @@
 package com.moovy.client.services;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
+import com.moovy.client.utils.RestUtils;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -17,24 +17,6 @@ import java.net.URI;
 public abstract class AbstractService
 {
     /**
-     * The webservices' host.
-     */
-    protected static final String HOST = "http://localhost:8080/MoovyServer/";
-
-    /**
-     *
-     */
-    private static Client client;
-
-    /*
-     * @see http://stackoverflow.com/questions/17366266/jax-rs-2-0-change-default-implementation
-     */
-    static
-    {
-        AbstractService.client = ClientBuilder.newClient();
-    }
-
-    /**
      * Performs a GET HTTP request.
      *
      * @param uri The service's URI.
@@ -43,7 +25,7 @@ public abstract class AbstractService
     protected <T> T doGet(URI uri, Class<T> type)
     {
         // Initialize vars
-        WebTarget target = AbstractService.client.target(uri);
+        WebTarget target = RestUtils.getClient().target(uri);
 
         System.out.println("GET " + uri.toString());
 
@@ -60,11 +42,12 @@ public abstract class AbstractService
      *
      * @param uri The service's URI.
      * @param type The response's type.
+     * @todo Factorize duplicate code because only the parameter type changes, strategy design pattern?
      */
     protected <T> T doGet(URI uri, GenericType<T> type)
     {
         // Initialize vars
-        WebTarget target = AbstractService.client.target(uri);
+        WebTarget target = RestUtils.getClient().target(uri);
 
         System.out.println("GET " + uri.toString());
 
@@ -85,7 +68,7 @@ public abstract class AbstractService
     protected <T> Response doPost(URI uri, Object entity)
     {
         // Initialize vars
-        WebTarget target = AbstractService.client.target(uri);
+        WebTarget target = RestUtils.getClient().target(uri);
 
         System.out.println("POST " + uri.toString());
 
@@ -106,7 +89,7 @@ public abstract class AbstractService
     protected <T> Response doPut(URI uri, Object entity)
     {
         // Initialize vars
-        WebTarget target = AbstractService.client.target(uri);
+        WebTarget target = RestUtils.getClient().target(uri);
 
         System.out.println("PUT " + uri.toString());
 
@@ -121,12 +104,12 @@ public abstract class AbstractService
     /**
      * Performs a DELETE HTTP request.
      *
-     * @param uri
+     * @param uri The service's URI.
      */
     protected Response doDelete(URI uri)
     {
         // Initialize vars
-        WebTarget target = AbstractService.client.target(uri);
+        WebTarget target = RestUtils.getClient().target(uri);
 
         System.out.println("DELETE " + uri.toString());
 

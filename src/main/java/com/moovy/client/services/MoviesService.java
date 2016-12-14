@@ -1,6 +1,7 @@
 package com.moovy.client.services;
 
 import com.moovy.client.entities.Movie;
+import com.moovy.client.utils.RestUtils;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriBuilder;
@@ -22,7 +23,7 @@ public class MoviesService extends AbstractService
     public Movie fetch(int id)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/movies/" + id);
 
         return this.doGet(uriBuilder.build(), Movie.class);
@@ -36,7 +37,7 @@ public class MoviesService extends AbstractService
     public List<Movie> fetchAll()
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/movies");
 
         return this.doGet(uriBuilder.build(), new GenericType<List<Movie>>(){});
@@ -51,7 +52,7 @@ public class MoviesService extends AbstractService
     public List<Movie> search(String query)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/movies");
         uriBuilder.queryParam("query", query);
 
@@ -66,17 +67,17 @@ public class MoviesService extends AbstractService
     public void save(Movie movie)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
 
         if(movie.getId() != 0)
         {
             uriBuilder.path("/movies/" + movie.getId());
-            this.doPut(uriBuilder.build(), movie);
+            this.doPut(uriBuilder.build(), movie).close();
         }
         else
         {
             uriBuilder.path("/movies");
-            this.doPost(uriBuilder.build(), movie);
+            this.doPost(uriBuilder.build(), movie).close();
         }
     }
 
@@ -88,9 +89,9 @@ public class MoviesService extends AbstractService
     public void delete(Movie movie)
     {
         // Build URI
-        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
         uriBuilder.path("/movies/" + movie.getId());
 
-        this.doDelete(uriBuilder.build());
+        this.doDelete(uriBuilder.build()).close();
     }
 }

@@ -1,11 +1,13 @@
 package com.moovy.client.services;
 
-import com.moovy.client.entities.Movie;
 import com.moovy.client.entities.User;
 
 import java.sql.Date;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -14,9 +16,9 @@ import java.util.regex.Pattern;
  */
 public class UsersService extends AbstractService
 {
-    public static final Map<Integer, User> fakeUsers = new HashMap<>();
+    public final Map<Integer, User> fakeUsers = new HashMap<>();
 
-    static
+    public UsersService()
     {
         // Initialize vars
         User fakeUser = null;
@@ -30,7 +32,7 @@ public class UsersService extends AbstractService
         fakeUser.setEmail("bruno.buiret@etu.univ-lyon1.fr");
         calendar.set(2016, 8, 1, 14, 0, 0);
         fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
-        UsersService.fakeUsers.put(1, fakeUser);
+        this.fakeUsers.put(1, fakeUser);
 
         fakeUser = new User();
         fakeUser.setId(2);
@@ -39,7 +41,7 @@ public class UsersService extends AbstractService
         fakeUser.setEmail("thomas.arnaud@etu.univ-lyon1.fr");
         calendar.set(2016, 8, 1, 14, 5, 0);
         fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
-        UsersService.fakeUsers.put(2, fakeUser);
+        this.fakeUsers.put(2, fakeUser);
 
         fakeUser = new User();
         fakeUser.setId(3);
@@ -48,7 +50,7 @@ public class UsersService extends AbstractService
         fakeUser.setEmail("alexis.rabilloud@etu.univ-lyon1.fr");
         calendar.set(2016, 8, 1, 14, 10, 0);
         fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
-        UsersService.fakeUsers.put(3, fakeUser);
+        this.fakeUsers.put(3, fakeUser);
     }
 
     /**
@@ -59,7 +61,7 @@ public class UsersService extends AbstractService
      */
     public User fetch(int id)
     {
-        return UsersService.fakeUsers.getOrDefault(id, null);
+        return this.fakeUsers.getOrDefault(id, null);
     }
 
     /**
@@ -69,7 +71,7 @@ public class UsersService extends AbstractService
      */
     public List<User> fetchAll()
     {
-        return new ArrayList<>(UsersService.fakeUsers.values());
+        return new ArrayList<>(this.fakeUsers.values());
     }
 
     /**
@@ -79,7 +81,7 @@ public class UsersService extends AbstractService
      */
     public User login(String email, String password)
     {
-        for(Map.Entry<Integer, User> entry : UsersService.fakeUsers.entrySet())
+        for(Map.Entry<Integer, User> entry : this.fakeUsers.entrySet())
         {
             if(entry.getValue().getEmail().equals(email) && entry.getValue().getFirstName().equals(password))
             {
