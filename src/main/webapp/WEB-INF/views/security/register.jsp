@@ -109,6 +109,7 @@
                             <form:errors path="lastName" cssClass="help-block" />
                         </div>
                     </spring:bind>
+                    <form:errors cssClass="text-red" />
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="checkbox icheck">

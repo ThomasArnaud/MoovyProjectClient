@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         less: {
             common: {
                 files: {
-                    "<%= assetsDirectory %>/css/common.css": "<%= assetsDirectory %>/css/common.less"
+                    "<%= assetsDirectory %>/common.css": "<%= assetsDirectory %>/less/common.less"
                 }
             }
         },
@@ -16,22 +16,26 @@ module.exports = function(grunt) {
             common: {
                 files: [{
                     expand: true,
-                    cwd: "<%= assetsDirectory %>/css/",
+                    cwd: "<%= assetsDirectory %>/",
                     src: "common.css",
-                    dest: "<%= assetsDirectory %>/css/",
+                    dest: "<%= assetsDirectory %>/public/css/",
                     ext: ".min.css"
                 }]
             }
-        }
+        },
+        clean: [
+            "<%= assetsDirectory %>/common.css"
+        ]
     });
 
     // Load NPM tasks
     grunt.loadNpmTasks("grunt-contrib-less");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Register custom tasks
     grunt.registerTask(
         "default",
-        ["less", "cssmin"]
+        ["less", "cssmin", "clean"]
     );
 };

@@ -22,7 +22,7 @@
         <c:url value="/assets/css/icheck-square-grey.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         --%>
-        <c:url value="/assets/css/common.css" var="_url" />
+        <c:url value="/assets/css/common.min.css" var="_url" />
         <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
