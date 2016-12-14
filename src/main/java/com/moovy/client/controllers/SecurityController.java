@@ -42,7 +42,7 @@ public class SecurityController extends AbstractController
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login()
     {
-        return this.render("security/login");
+         return this.render("security/login");
     }
 
     /**
@@ -169,12 +169,17 @@ public class SecurityController extends AbstractController
         {
             if(!passwordConfirmation.equals(user.getPassword()))
             {
-                result.rejectValue("password", null, "Votre mot de passe est différent de sa confirmation.");
+                result.reject(null, "Votre mot de passe est différent de sa confirmation.");
             }
         }
         else
         {
+            result.reject(null, "Vous devez remplir la confirmation du mot de passe.");
+        }
 
+        if(!termsAccepted)
+        {
+            result.reject(null, "Vous devez accepter les conditions d'utilisation du site.");
         }
 
         if(!result.hasErrors())
