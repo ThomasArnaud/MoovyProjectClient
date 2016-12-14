@@ -2,10 +2,9 @@ package com.moovy.client.services;
 
 import com.moovy.client.entities.Category;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.UriBuilder;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -14,35 +13,6 @@ import java.util.Map;
  */
 public class CategoriesService extends AbstractService
 {
-    public static final Map<String, Category> fakeCategories = new HashMap<>();
-
-    static
-    {
-        // Initialize vars
-        Category fakeCategory = null;
-
-        // Create fake categories
-        fakeCategory = new Category();
-        fakeCategory.setCode("AC");
-        fakeCategory.setName("Action");
-        CategoriesService.fakeCategories.put("AC", fakeCategory);
-
-        fakeCategory = new Category();
-        fakeCategory.setCode("CO");
-        fakeCategory.setName("Comédie");
-        CategoriesService.fakeCategories.put("CO", fakeCategory);
-
-        fakeCategory = new Category();
-        fakeCategory.setCode("PO");
-        fakeCategory.setName("Policier");
-        CategoriesService.fakeCategories.put("PO", fakeCategory);
-
-        fakeCategory = new Category();
-        fakeCategory.setCode("WE");
-        fakeCategory.setName("Western");
-        CategoriesService.fakeCategories.put("WE", fakeCategory);
-    }
-
     /**
      * Fetches a single category from the database thanks to its code.
      *
@@ -51,7 +21,11 @@ public class CategoriesService extends AbstractService
      */
     public Category fetch(String code)
     {
-        return CategoriesService.fakeCategories.getOrDefault(code, null);
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/categories/" + code);
+
+        return this.doGet(uriBuilder.build(), Category.class);
     }
 
     /**
@@ -61,7 +35,11 @@ public class CategoriesService extends AbstractService
      */
     public List<Category> fetchAll()
     {
-        return new ArrayList<>(CategoriesService.fakeCategories.values());
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/categories");
+
+        return this.doGet(uriBuilder.build(), new GenericType<List<Category>>(){});
     }
 
     /**
@@ -71,7 +49,19 @@ public class CategoriesService extends AbstractService
      */
     public void save(Category category)
     {
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
 
+        if(category.getCode() != null)
+        {
+            uriBuilder.path("/categories/" + category.getCode());
+            this.doPut(uriBuilder.build(), category);
+        }
+        else
+        {
+            uriBuilder.path("/categories");
+            this.doPost(uriBuilder.build(), category);
+        }
     }
 
     /**
@@ -81,6 +71,10 @@ public class CategoriesService extends AbstractService
      */
     public void delete(Category category)
     {
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/categories/" + category.getCode());
 
+        this.doDelete(uriBuilder.build());
     }
 }

@@ -2,11 +2,9 @@ package com.moovy.client.services;
 
 import com.moovy.client.entities.Director;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.UriBuilder;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -15,45 +13,6 @@ import java.util.regex.Pattern;
  */
 public class DirectorsService extends AbstractService
 {
-    public static final Map<Integer, Director> fakeDirectors = new HashMap<>();
-
-    static
-    {
-        // Initialize vars
-        Director fakeDirector = null;
-
-        // Create fake directors
-        fakeDirector = new Director();
-        fakeDirector.setId(1);
-        fakeDirector.setFirstName("Gérard");
-        fakeDirector.setLastName("Oury");
-        DirectorsService.fakeDirectors.put(1, fakeDirector);
-
-        fakeDirector = new Director();
-        fakeDirector.setId(2);
-        fakeDirector.setFirstName("Claude");
-        fakeDirector.setLastName("Chabrol");
-        DirectorsService.fakeDirectors.put(2, fakeDirector);
-
-        fakeDirector = new Director();
-        fakeDirector.setId(3);
-        fakeDirector.setFirstName("Luc");
-        fakeDirector.setLastName("Besson");
-        DirectorsService.fakeDirectors.put(3, fakeDirector);
-
-        fakeDirector = new Director();
-        fakeDirector.setId(4);
-        fakeDirector.setFirstName("Eric");
-        fakeDirector.setLastName("Besnard");
-        DirectorsService.fakeDirectors.put(4, fakeDirector);
-
-        fakeDirector = new Director();
-        fakeDirector.setId(5);
-        fakeDirector.setFirstName("Joss");
-        fakeDirector.setLastName("Whedon");
-        DirectorsService.fakeDirectors.put(5, fakeDirector);
-    }
-
     /**
      * Fetches a single director from the database thanks to its id.
      *
@@ -62,7 +21,11 @@ public class DirectorsService extends AbstractService
      */
     public Director fetch(int id)
     {
-        return DirectorsService.fakeDirectors.getOrDefault(id, null);
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/directors/" + id);
+
+        return this.doGet(uriBuilder.build(), Director.class);
     }
 
     /**
@@ -72,7 +35,11 @@ public class DirectorsService extends AbstractService
      */
     public List<Director> fetchAll()
     {
-        return new ArrayList<>(DirectorsService.fakeDirectors.values());
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/directors");
+
+        return this.doGet(uriBuilder.build(), new GenericType<List<Director>>(){});
     }
 
     /**
@@ -83,22 +50,12 @@ public class DirectorsService extends AbstractService
      */
     public List<Director> search(String query)
     {
-        // Build fake data
-        List<Director> fakeDirectors = new ArrayList<>();
-        Pattern queryPattern = Pattern.compile(".*" + query + ".*", Pattern.CASE_INSENSITIVE);
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/directors");
+        uriBuilder.queryParam("query", query);
 
-        for(Map.Entry<Integer, Director> entry : DirectorsService.fakeDirectors.entrySet())
-        {
-            if(
-                queryPattern.matcher(entry.getValue().getFirstName()).matches()
-                || queryPattern.matcher(entry.getValue().getLastName()).matches()
-            )
-            {
-                fakeDirectors.add(entry.getValue());
-            }
-        }
-
-        return fakeDirectors;
+        return this.doGet(uriBuilder.build(), new GenericType<List<Director>>(){});
     }
 
     /**
@@ -108,7 +65,19 @@ public class DirectorsService extends AbstractService
      */
     public void save(Director director)
     {
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
 
+        if(director.getId() != 0)
+        {
+            uriBuilder.path("/directors/" + director.getId());
+            this.doPut(uriBuilder.build(), director);
+        }
+        else
+        {
+            uriBuilder.path("/directors");
+            this.doPost(uriBuilder.build(), director);
+        }
     }
 
     /**
@@ -118,6 +87,10 @@ public class DirectorsService extends AbstractService
      */
     public void delete(Director director)
     {
+        // Build URI
+        UriBuilder uriBuilder = UriBuilder.fromUri(AbstractService.HOST);
+        uriBuilder.path("/directors/" + director.getId());
 
+        this.doDelete(uriBuilder.build());
     }
 }

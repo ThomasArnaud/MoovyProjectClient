@@ -21,10 +21,6 @@ public class ContextCleanupListener implements ServletContextListener
     @Override
     public void contextDestroyed(ServletContextEvent sce)
     {
-        ActorsService.fakeActors.clear();
-        CategoriesService.fakeCategories.clear();
-        DirectorsService.fakeDirectors.clear();
-        MoviesService.fakeMovies.clear();
         UsersService.fakeUsers.clear();
     }
 }
