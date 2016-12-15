@@ -58,7 +58,7 @@
                         </c:if>
                     </div>
                     <div class="form-group has-feedback<c:if test="${not empty passwordError}"> has-error</c:if>">
-                        <input type="password" class="form-control" name="password" placeholder="Mot de passe" value="Bruno" />
+                        <input type="password" class="form-control" name="password" placeholder="Mot de passe" value="admin" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         <c:if test="${not empty passwordError}">
                             <span class="text-red"><c:out value="${passwordError}" /></span>

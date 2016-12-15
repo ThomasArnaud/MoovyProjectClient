@@ -1,10 +1,10 @@
 package com.moovy.client.services;
 
 import com.moovy.client.entities.User;
+import com.moovy.client.utils.RestUtils;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +16,7 @@ import java.util.Map;
  */
 public class UsersService extends AbstractService
 {
+    /*
     public final Map<Integer, User> fakeUsers = new HashMap<>();
 
     public UsersService()
@@ -52,6 +53,7 @@ public class UsersService extends AbstractService
         fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
         this.fakeUsers.put(3, fakeUser);
     }
+    */
 
     /**
      * Fetches a single user from the database thanks to its id.
@@ -61,7 +63,7 @@ public class UsersService extends AbstractService
      */
     public User fetch(int id)
     {
-        return this.fakeUsers.getOrDefault(id, null);
+        throw new UnsupportedOperationException("This method hasn't been implemented yet.");
     }
 
     /**
@@ -71,7 +73,7 @@ public class UsersService extends AbstractService
      */
     public List<User> fetchAll()
     {
-        return new ArrayList<>(this.fakeUsers.values());
+        throw new UnsupportedOperationException("This method hasn't been implemented yet.");
     }
 
     /**
@@ -81,15 +83,42 @@ public class UsersService extends AbstractService
      */
     public User login(String email, String password)
     {
-        for(Map.Entry<Integer, User> entry : this.fakeUsers.entrySet())
+        // Build URI
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
+        uriBuilder.path("/users/login");
+
+        // Build login data
+        Map<String, String> loginData = new HashMap<>();
+        loginData.put("email", email);
+        loginData.put("password", password);
+
+        // Try logging in
+        Response response = this.doPost(uriBuilder.build(), loginData);
+        User user = null;
+
+        System.out.println(response);
+
+        if(response.getStatus() == Response.Status.OK.getStatusCode())
         {
-            if(entry.getValue().getEmail().equals(email) && entry.getValue().getFirstName().equals(password))
-            {
-                return entry.getValue();
-            }
+            // User has successfully logged in
+            user = response.readEntity(User.class);
+        }
+        else if(response.getStatus() == Response.Status.UNAUTHORIZED.getStatusCode())
+        {
+            // Bad credentials
+        }
+        else if(response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode())
+        {
+            // Missing login data
+        }
+        else
+        {
+            // An error happened
         }
 
-        return null;
+        response.close();
+
+        return user;
     }
 
     /**
@@ -109,6 +138,6 @@ public class UsersService extends AbstractService
      */
     public void delete(User user)
     {
-
+        throw new UnsupportedOperationException("This method hasn't been implemented yet.");
     }
 }
