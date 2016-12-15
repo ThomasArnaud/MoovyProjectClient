@@ -1,7 +1,6 @@
 package com.moovy.client.utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import com.moovy.client.text.DateFormat;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -13,5 +12,5 @@ public abstract class DateUtils
     /**
      * A date formatter for a short format.
      */
-    public static final DateFormat FORMAT_SHORT = new SimpleDateFormat("dd/MM/yyyy");
+    public static final DateFormat FORMAT_SHORT = new DateFormat("dd/MM/yyyy");
 }
