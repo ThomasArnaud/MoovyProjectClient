@@ -52,17 +52,9 @@ public class CategoriesService extends AbstractService
     {
         // Build URI
         UriBuilder uriBuilder = RestUtils.getUriBuilder();
+        uriBuilder.path("/categories");
 
-        if(category.getCode() != null)
-        {
-            uriBuilder.path("/categories/" + category.getCode());
-            this.doPut(uriBuilder.build(), category).close();
-        }
-        else
-        {
-            uriBuilder.path("/categories");
-            this.doPost(uriBuilder.build(), category).close();
-        }
+        this.doPut(uriBuilder.build(), category).close();
     }
 
     /**

@@ -76,11 +76,11 @@
                             <form:errors path="password" cssClass="help-block" />
                         </div>
                     </spring:bind>
-                    <div class="form-group has-feedback<c:if test="${false}"> has-error</c:if>">
+                    <div class="form-group has-feedback<c:if test="${not empty passwordConfirmationError}"> has-error</c:if>">
                         <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmation" />
                         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                        <c:if test="${false}">
-                            <span class="help-block"></span>
+                        <c:if test="${not empty passwordConfirmationError}">
+                            <span class="help-block"><c:out value="${passwordConfirmationError}" /></span>
                         </c:if>
                     </div>
                     <spring:bind path="firstName">
@@ -109,7 +109,9 @@
                             <form:errors path="lastName" cssClass="help-block" />
                         </div>
                     </spring:bind>
-                    <form:errors cssClass="text-red" />
+                    <c:if test="${not empty termsAcceptedError}">
+                        <span class="text-red""><c:out value="${termsAcceptedError}" /></span>
+                    </c:if>
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="checkbox icheck">

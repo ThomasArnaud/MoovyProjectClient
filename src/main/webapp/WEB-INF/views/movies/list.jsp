@@ -20,27 +20,7 @@
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">
             $(function() {
-                // Initialize vars
-                var $moviesTable = $("#table-movies");
-                var charactersArray = {};
-
-                <c:if test="${not empty moviesList && fn:length(moviesList) gt 0}">
-                    <c:forEach items="${moviesList}" var="movie">
-                        charactersArray[${movie.id}] = [];
-
-                        <c:if test="${not empty movie.characters && fn:length(movie.characters) gt 0}">
-                            <c:forEach items="${movie.characters}" var="character">
-                                charactersArray[${movie.id}].push({
-                                    name: "<c:out value="${character.name}" />",
-                                    actor: "<c:out value="${character.id.actor.firstName} ${character.id.actor.lastName}" />"
-                                });
-                            </c:forEach>
-                        </c:if>
-                    </c:forEach>
-                </c:if>
-
-                // Set up movies data table
-                var moviesDataTable = $moviesTable.dataTable({
+                var moviesDataTable = $("#table-movies").dataTable({
                     language: {
                         url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/French.json"
                     },
@@ -50,47 +30,10 @@
                     }]
                 });
 
-                // Set up characters details listener
-                var $charactersModal = $("#modal-characters");
-                var charactersCache = {};
-                <c:url value="/movies/{movieId}/characters" var="_url" />
-                var charactersEditionUrl = "${fn:escapeXml(_url)}";
-
-                $charactersModal.on("show.bs.modal", function(e) {
-                    // Initialize vars
-                    var $row = $(e.relatedTarget).closest("tr");
-                    var movieId = $row.data("movie-id");
-
-                    // Build cache if necessary
-                    if(typeof charactersCache[movieId] === "undefined") {
-                        var charactersList = "<ul class='list-responsive'>";
-
-                        for(var i = 0, j = charactersArray[movieId].length; i < j; i++) {
-                            charactersList += "<li>" + charactersArray[movieId][i].name + " joué(e) par " + charactersArray[movieId][i].actor + "</li>";
-                        }
-
-                        charactersList += "</ul>";
-                        charactersCache[movieId] = charactersList;
-                    }
-
-                    // Set up modal
-                    $charactersModal.find(".modal-title").html("Personnages de <cite>" + $row.find("td:eq(0)").text() + "</cite>");
-                    $charactersModal.find(".modal-body").html(charactersCache[movieId]);
-                    $charactersModal.find("a").attr("href", charactersEditionUrl.replace("{movieId}", movieId));
-                });
-
                 // Set up tooltips
                 $("[data-tooltip]").tooltip({
                     container: "body"
                 });
-
-                $moviesTable.find("a[data-tooltip]").click(function(e) {
-                    $(this).tooltip("hide");
-                });
-
-                $moviesTable.on('hidden.bs.tooltip', function () {
-                    console.log($(this));
-                })
             });
         </script>
     </jsp:attribute>
@@ -149,23 +92,10 @@
                                                 <c:out value="${movie.director.firstName} ${movie.director.lastName}" />
                                             </td>
                                             <td class="column-icons">
-                                                <c:choose>
-                                                    <c:when test="${not empty movie.characters && fn:length(movie.characters) gt 0}">
-                                                        <a
-                                                            href="#"
-                                                            data-toggle="modal"
-                                                            data-target="#modal-characters"
-                                                            data-tooltip
-                                                            data-placement="left"
-                                                            title="${fn:length(movie.characters)} ${fn:length(movie.characters) gt 1 ? "personnages" : "personnage"}"
-                                                        >
-                                                            <i class="fa fa-users"></i>
-                                                        </a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <i class="fa fa-users"></i>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <c:url value="/movies/${movie.id}/characters" var="_url" />
+                                                <a href="${fn:escapeXml(_url)}">
+                                                    <i class="fa fa-users"></i>
+                                                </a>
                                                 <c:url value="/movies/edit/${movie.id}" var="_url" />
                                                 <a href="${fn:escapeXml(_url)}">
                                                     <i class="fa fa-pencil"></i>
@@ -188,26 +118,6 @@
                             </c:choose>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modal-characters" tabindex="-1" role="dialog" aria-labelledby="Characters modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                        <h4 class="modal-title"></h4>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-default">
-                            Éditer
-                        </a>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    </div>
                 </div>
             </div>
         </div>

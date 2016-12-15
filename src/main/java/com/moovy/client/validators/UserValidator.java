@@ -44,7 +44,7 @@ public class UserValidator implements Validator
             // More specific validations
             User user = (User) target;
 
-            if(user.getEmail() != null && !EmailUtils.isValid(user.getEmail()))
+            if(user.getEmail() != null && !user.getEmail().trim().isEmpty() && !EmailUtils.isValid(user.getEmail()))
             {
                 errors.rejectValue("email", null, "Le format de votre adresse e-mail est invalide");
             }

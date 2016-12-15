@@ -3,11 +3,14 @@ package com.moovy.client.controllers;
 import com.moovy.client.entities.User;
 import com.moovy.client.services.UsersService;
 import com.moovy.client.utils.EmailUtils;
+import com.moovy.client.validators.UserValidator;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +29,17 @@ import java.util.Calendar;
 @Controller
 public class SecurityController extends AbstractController
 {
+    /**
+     * Initializes a binder with validators and editors.
+     *
+     * @param binder The binder to initialize.
+     */
+    @InitBinder
+    protected void initBinder(WebDataBinder binder)
+    {
+        binder.setValidator(new UserValidator());
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -165,21 +179,28 @@ public class SecurityController extends AbstractController
         @RequestParam(value = "terms", required = false) boolean termsAccepted
     )
     {
+        // Initialize vars
+        String passwordConfirmationError = null;
+        String termsAcceptedError = null;
+
         if(passwordConfirmation != null && !passwordConfirmation.trim().isEmpty())
         {
             if(!passwordConfirmation.equals(user.getPassword()))
             {
                 result.reject(null, "Votre mot de passe est différent de sa confirmation.");
+                passwordConfirmationError = "Votre mot de passe est différent de sa confirmation.";
             }
         }
         else
         {
             result.reject(null, "Vous devez remplir la confirmation du mot de passe.");
+            passwordConfirmationError = "Vous devez remplir la confirmation du mot de passe.";
         }
 
         if(!termsAccepted)
         {
             result.reject(null, "Vous devez accepter les conditions d'utilisation du site.");
+            termsAcceptedError = "Vous devez accepter les conditions d'utilisation du site.";
         }
 
         if(!result.hasErrors())
@@ -199,6 +220,8 @@ public class SecurityController extends AbstractController
             ModelMap model = new ModelMap();
 
             model.addAttribute("user", user);
+            model.addAttribute("passwordConfirmationError", passwordConfirmationError);
+            model.addAttribute("termsAcceptedError", termsAcceptedError);
 
             return this.render("security/register", model);
         }
