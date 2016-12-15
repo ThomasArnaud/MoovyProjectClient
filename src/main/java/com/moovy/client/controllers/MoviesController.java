@@ -67,7 +67,7 @@ public class MoviesController extends AbstractController
         binder.registerCustomEditor(Director.class, new DirectorEditor());
         binder.registerCustomEditor(Actor.class, new ActorEditor());
         binder.registerCustomEditor(Category.class, new CategoryEditor());
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(DateUtils.FORMAT_SHORT, false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(DateUtils.FORMAT_SHORT, true));
         binder.registerCustomEditor(List.class, "categories", new CustomCollectionEditor(List.class));
     }
 

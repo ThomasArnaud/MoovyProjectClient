@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
@@ -159,7 +159,7 @@ public class ActorsController extends AbstractController
                 )
             );
 
-            return this.redirect("/directors");
+            return this.redirect("/actors");
         }
         else
         {

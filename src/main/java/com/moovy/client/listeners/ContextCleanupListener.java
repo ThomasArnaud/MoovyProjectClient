@@ -31,9 +31,6 @@ public class ContextCleanupListener implements ServletContextListener
     @Override
     public void contextDestroyed(ServletContextEvent sce)
     {
-        RestUtils.getClient().close();
-        RestUtils.client.set(null);
-        RestUtils.client.remove();
-        RestUtils.client = null;
+        RestUtils.clearClient();
     }
 }

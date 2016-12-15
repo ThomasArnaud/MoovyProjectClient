@@ -73,7 +73,7 @@
                     <form:input path="duration" type="hidden" />
                     <form:input path="releaseDate" type="hidden" />
                     <form:input path="budget" type="hidden" />
-                    <form:input path="profit" type="hidden" />
+                    <form:input path="benefit" type="hidden" />
                     <form:select path="director" cssClass="hidden">
                         <form:option value="${movie.director.id}" selected="selected" />
                     </form:select>

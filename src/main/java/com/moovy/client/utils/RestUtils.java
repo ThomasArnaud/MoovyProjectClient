@@ -14,14 +14,7 @@ public class RestUtils
     /**
      *
      */
-    public static ThreadLocal<Client> client = new ThreadLocal<Client>()
-    {
-        @Override
-        public Client initialValue()
-        {
-            return ClientBuilder.newClient();
-        }
-    };
+    protected static Client client = ClientBuilder.newClient();
 
     /**
      * Gets a URI builder to be used to perform a REST call.
@@ -39,6 +32,15 @@ public class RestUtils
      */
     public static Client getClient()
     {
-        return RestUtils.client.get();
+        return RestUtils.client;
+    }
+
+    /**
+     *
+     */
+    public static void clearClient()
+    {
+        RestUtils.client.close();
+        RestUtils.client = null;
     }
 }

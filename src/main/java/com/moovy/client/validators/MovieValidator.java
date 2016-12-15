@@ -37,7 +37,7 @@ public class MovieValidator implements Validator
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "duration", null, "Vous devez préciser la durée.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "releaseDate", null, "Vous devez préciser la date de sortie.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "budget", null, "Vous devez préciser le budget.");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "profit", null, "Vous devez préciser le profit réalisé.");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "benefit", null, "Vous devez préciser le bénéfice réalisé.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "director", null, "Vous devez préciser le réalisateur.");
         }
     }
