@@ -1,5 +1,7 @@
 package com.moovy.client.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
@@ -61,6 +63,7 @@ public class CharacterPK implements Serializable
         this.actor = actor;
     }
 
+    @JsonIgnore
     public Movie getMovie()
     {
         return movie;

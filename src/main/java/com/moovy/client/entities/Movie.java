@@ -1,6 +1,7 @@
 package com.moovy.client.entities;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,11 @@ public class Movie
     private List<Character> characters;
     private Director director;
     private List<Category> categories;
+
+    public Movie()
+    {
+        this.characters = new ArrayList<>();
+    }
 
     public int getId()
     {

@@ -124,14 +124,14 @@
                                 <c:forEach items="${movie.characters}" var="character" varStatus="loopStatus">
                                     <tr>
                                         <td>
-                                            <spring:bind path="characters[${loopStatus.index}].actor">
+                                            <spring:bind path="characters[${loopStatus.index}].id.actor">
                                                 <form:select
-                                                    path="characters[${loopStatus.index}].actor"
+                                                    path="characters[${loopStatus.index}].id.actor"
                                                     cssClass="form-control"
                                                 >
                                                     <form:options items="${actorsList}" itemValue="id" itemLabel="fullName" />
                                                 </form:select>
-                                                <form:errors path="characters[${loopStatus.index}].actor" cssClass="help-block" />
+                                                <form:errors path="characters[${loopStatus.index}].id.actor" cssClass="help-block" />
                                             </spring:bind>
                                         </td>
                                         <td>

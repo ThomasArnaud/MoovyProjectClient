@@ -12,6 +12,7 @@ import com.moovy.client.entities.Director;
 import com.moovy.client.entities.Movie;
 import com.moovy.client.services.ActorsService;
 import com.moovy.client.services.CategoriesService;
+import com.moovy.client.services.CharactersService;
 import com.moovy.client.services.DirectorsService;
 import com.moovy.client.services.MoviesService;
 import com.moovy.client.utils.DateUtils;
@@ -435,6 +436,9 @@ public class MoviesController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
             ActorsService actorsService = new ActorsService();
+            CharactersService charactersService = new CharactersService();
+
+            movie.setCharacters(charactersService.fetchByMovieId(movieId));
 
             model.addAttribute("movie", movie);
             model.addAttribute("actorsList", actorsService.fetchAll());
@@ -550,9 +554,10 @@ public class MoviesController extends AbstractController
 
         if(!result.hasErrors())
         {
-            // Save movie
-            MoviesService moviesService = new MoviesService();
-            moviesService.save(movie);
+            // Save characters
+            CharactersService charactersService = new CharactersService();
+
+            charactersService.save(movieId, movie.getCharacters());
 
             // Then, register a flash message and redirect
             this.addFlash(
@@ -570,6 +575,9 @@ public class MoviesController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
             ActorsService actorsService = new ActorsService();
+            CharactersService charactersService = new CharactersService();
+
+            movie.setCharacters(charactersService.fetchByMovieId(movieId));
 
             model.addAttribute("movie", movie);
             model.addAttribute("actorsList", actorsService.fetchAll());

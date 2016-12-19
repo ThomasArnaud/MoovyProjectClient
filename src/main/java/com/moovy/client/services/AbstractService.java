@@ -73,11 +73,18 @@ public abstract class AbstractService
         System.out.println("POST " + uri.toString());
 
         // Perform request
-        return target
+        Response response = target
             .request()
             .accept(MediaType.APPLICATION_JSON)
             .post(Entity.json(entity))
         ;
+
+        if(response.getStatus() == Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
+        {
+            throw new RuntimeException("Une erreur est survenue côté serveur.");
+        }
+
+        return response;
     }
 
     /**
