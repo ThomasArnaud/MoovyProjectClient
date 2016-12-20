@@ -126,9 +126,13 @@ public class UsersService extends AbstractService
      *
      * @param user The user to save.
      */
-    public void save(User user)
+    public void register(User user)
     {
+        // Build URI
+        UriBuilder uriBuilder = RestUtils.getUriBuilder();
 
+        uriBuilder.path("/users/register");
+        this.doPost(uriBuilder.build(), user).close();
     }
 
     /**

@@ -47,7 +47,7 @@
                 <meta name="author" content="Thomas Arnaud, Bruno Buiret, Alexis Rabilloud" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
                 <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge" />
-                <title>Moovy - Connexion</title>
+                <title>Moovy - Erreur 500</title>
                 <c:url value="/assets/css/bootstrap.min.css" var="_url" />
                 <link rel="stylesheet" type="text/css" href="${fn:escapeXml(_url)}" media="screen" />
                 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" media="screen" />

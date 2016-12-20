@@ -101,11 +101,18 @@ public abstract class AbstractService
         System.out.println("PUT " + uri.toString());
 
         // Perform request
-        return target
+        Response response = target
             .request()
             .accept(MediaType.APPLICATION_JSON)
             .put(Entity.json(entity))
         ;
+
+        if(response.getStatus() == Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
+        {
+            throw new RuntimeException("Une erreur est survenue côté serveur.");
+        }
+
+        return response;
     }
 
     /**
