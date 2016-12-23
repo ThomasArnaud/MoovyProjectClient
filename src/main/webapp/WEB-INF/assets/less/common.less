@@ -37,36 +37,35 @@
   }
 }
 
-.error-page ol li {
-  -ms-word-break: break-all;
-  word-break: break-all;;
-}
-
-
-
-body.error-page {
+body.error-page,
+.terms-page {
   background: @gray;
 
-  .error-box {
+  .error-box,
+  .terms-box {
     width: 360px;
     margin: 7% auto;
+
     @media (max-width: @screen-sm) {
       width: 90%;
       margin-top: 20px;
     }
   }
 
-  .error-logo {
+  .error-logo,
+  .terms-logo {
     font-size: 35px;
     text-align: center;
     margin-bottom: 25px;
     font-weight: 300;
+
     a {
       color: #444;
     }
   }
 
-  .error-box-body {
+  .error-box-body,
+  .terms-box-body {
     background: #fff;
     padding: 20px;
     border-top: 0;
@@ -75,12 +74,23 @@ body.error-page {
     .form-control-feedback {
       color: #777;
     }
+
+    ol {
+      margin-bottom: 0;
+      padding-left: 15px;
+
+      li {
+        -ms-word-break: break-all;
+        word-break: break-all;;
+      }
+    }
   }
 
-  .error-box-msg {
+  .error-box-msg,
+  .terms-box-msg {
     margin: 0;
-    text-align: center;
-    padding: 0 20px 20px 20px;
+    text-align: justify;
+    padding: 0 0 20px 0;
   }
 }
 

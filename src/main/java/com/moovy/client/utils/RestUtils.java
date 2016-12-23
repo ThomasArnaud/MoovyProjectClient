@@ -23,7 +23,7 @@ public class RestUtils
      */
     public static UriBuilder getUriBuilder()
     {
-        return UriBuilder.fromUri("http://192.168.0.14:8080/MoovyServer/");
+        return UriBuilder.fromUri("http://192.168.0.11:8080/MoovyServer/");
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.moovy.client.validators;
 
 import com.moovy.client.entities.Actor;
+import com.moovy.client.utils.DateUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -37,6 +38,21 @@ public class ActorValidator implements Validator
         {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", null, "Vous devez préciser le prénom.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", null, "Vous devez préciser le nom.");
+
+            // More specific validations
+            Actor actor = (Actor) target;
+
+            if(actor.getBirthDate() != null && actor.getDeathDate() != null)
+            {
+                if(actor.getBirthDate().after(actor.getDeathDate()))
+                {
+                    errors.rejectValue("deathDate", null, "La date de décès ne peut pas se situer après la date de naissance.");
+                }
+                else if(DateUtils.isSameDay(actor.getBirthDate(), actor.getDeathDate()))
+                {
+                    errors.rejectValue("deathDate", null, "La date de décès ne peut pas être égale à la date de naissance.");
+                }
+            }
         }
     }
 }

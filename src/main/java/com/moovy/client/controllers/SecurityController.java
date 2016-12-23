@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -210,9 +211,30 @@ public class SecurityController extends AbstractController
 
             // Register user
             UsersService usersService = new UsersService();
-            usersService.register(user);
+            Response response = usersService.register(user);
 
-            return this.redirect("/login");
+            if(response.getStatus() == Response.Status.OK.getStatusCode())
+            {
+                // User has been successfully created
+                this.addFlash("success", "Vous pouvez dès maintenant vous connecter.");
+
+                return this.redirect("/login");
+            }
+            else if(response.getStatus() == Response.Status.CONFLICT.getStatusCode())
+            {
+                result.rejectValue("email", null, "Cette adresse e-mail est déjà utilisée.");
+
+                // Build model
+                ModelMap model = new ModelMap();
+
+                model.addAttribute("user", user);
+
+                return this.render("security/register", model);
+            }
+            else
+            {
+                throw new RuntimeException("Une erreur inattendue est survenue lors de votre inscription.");
+            }
         }
         else
         {

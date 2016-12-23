@@ -39,8 +39,10 @@ public abstract class AbstractService
                 .accept(MediaType.APPLICATION_JSON)
                 .get()
         );
+        T entity = response.readEntity(type);
+        response.close();
 
-        return response.readEntity(type);
+        return entity;
     }
 
     /**
@@ -64,8 +66,10 @@ public abstract class AbstractService
             .accept(MediaType.APPLICATION_JSON)
             .get()
         );
+        T entity = response.readEntity(type);
+        response.close();
 
-        return response.readEntity(type);
+        return entity;
     }
 
     /**
