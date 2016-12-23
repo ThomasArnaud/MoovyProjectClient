@@ -1,7 +1,6 @@
 package com.moovy.client.editors;
 
 import com.moovy.client.services.DirectorsService;
-import org.springframework.stereotype.Component;
 
 import java.beans.PropertyEditorSupport;
 
@@ -11,7 +10,7 @@ import java.beans.PropertyEditorSupport;
  * @author Alexis Rabilloud (alexis.rabilloud@etu.univ-lyon1.fr)
  * @see <a href="http://stackoverflow.com/questions/12875299/spring-mvc-formselect-tag">http://stackoverflow.com/questions/12875299/spring-mvc-formselect-tag</a>
  */
-@Component
+//@Component
 public class DirectorEditor extends PropertyEditorSupport
 {
     /**

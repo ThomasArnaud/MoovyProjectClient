@@ -16,45 +16,6 @@ import java.util.Map;
  */
 public class UsersService extends AbstractService
 {
-    /*
-    public final Map<Integer, User> fakeUsers = new HashMap<>();
-
-    public UsersService()
-    {
-        // Initialize vars
-        User fakeUser = null;
-        Calendar calendar = Calendar.getInstance();
-
-        // Create fake users
-        fakeUser = new User();
-        fakeUser.setId(1);
-        fakeUser.setFirstName("Bruno");
-        fakeUser.setLastName("Buiret");
-        fakeUser.setEmail("bruno.buiret@etu.univ-lyon1.fr");
-        calendar.set(2016, 8, 1, 14, 0, 0);
-        fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
-        this.fakeUsers.put(1, fakeUser);
-
-        fakeUser = new User();
-        fakeUser.setId(2);
-        fakeUser.setFirstName("Thomas");
-        fakeUser.setLastName("Arnaud");
-        fakeUser.setEmail("thomas.arnaud@etu.univ-lyon1.fr");
-        calendar.set(2016, 8, 1, 14, 5, 0);
-        fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
-        this.fakeUsers.put(2, fakeUser);
-
-        fakeUser = new User();
-        fakeUser.setId(3);
-        fakeUser.setFirstName("Alexis");
-        fakeUser.setLastName("Rabilloud");
-        fakeUser.setEmail("alexis.rabilloud@etu.univ-lyon1.fr");
-        calendar.set(2016, 8, 1, 14, 10, 0);
-        fakeUser.setCreatedAt(new Date(calendar.getTimeInMillis()));
-        this.fakeUsers.put(3, fakeUser);
-    }
-    */
-
     /**
      * Fetches a single user from the database thanks to its id.
      *
@@ -95,8 +56,6 @@ public class UsersService extends AbstractService
         // Try logging in
         Response response = this.doPost(uriBuilder.build(), loginData);
         User user = null;
-
-        System.out.println(response);
 
         if(response.getStatus() == Response.Status.OK.getStatusCode())
         {

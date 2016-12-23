@@ -210,7 +210,7 @@ public class SecurityController extends AbstractController
 
             // Register user
             UsersService usersService = new UsersService();
-            usersService.save(user);
+            usersService.register(user);
 
             return this.redirect("/login");
         }

@@ -9,10 +9,10 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 >
-    <!-- Enables the Spring MVC @Controller programming model -->
     <annotation-driven />
+    <!-- Enables the Spring MVC @Controller programming model -->
     <context:component-scan base-package="com.moovy.client.controllers" />
-    <!-- Handles HTTP GET requests for /assets/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <!-- Handles HTTP GET requests for /assets/** by efficiently serving up static resources in the corresponding directory -->
     <resources mapping="/assets/**" location="/WEB-INF/assets/public/" />
     <!-- Resolves views selected for rendering by @Controllers to .tags resources in the /WEB-INF/views directory -->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
