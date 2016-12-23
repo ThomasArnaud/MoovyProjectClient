@@ -17,7 +17,14 @@
                     <div class="error-content">
                         <h3>
                             <i class="fa fa-warning text-red"></i>
-                            Une erreur interne est survenue.
+                            <c:choose>
+                                <c:when test="${not isServerSide}">
+                                    Une erreur interne est survenue.
+                                </c:when>
+                                <c:otherwise>
+                                    Une erreur est survenue côté serveur.
+                                </c:otherwise>
+                            </c:choose>
                         </h3>
                         <p>
                             <c:out value="${exception.message}" />

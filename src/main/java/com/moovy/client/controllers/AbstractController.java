@@ -1,6 +1,7 @@
 package com.moovy.client.controllers;
 
 import com.moovy.client.entities.User;
+import com.moovy.client.services.ServiceException;
 import com.moovy.client.session.Flash;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -72,6 +73,24 @@ public abstract class AbstractController
     }
 
     /**
+     * Renders a view to display an exception's details.
+     *
+     * @param ex The exception that occured.
+     * @param isServerSide {@code true} if the error happened server-side, {@code false} otherwise.
+     * @return The view to render.
+     */
+    private ModelAndView renderException(Exception ex, boolean isServerSide)
+    {
+        // Build model
+        ModelMap model = new ModelMap();
+
+        model.addAttribute("exception", ex);
+        model.addAttribute("isServerSide", isServerSide);
+
+        return this.render("common/error", model);
+    }
+
+    /**
      * Redirects the user to the given URL.
      *
      * @param url The URL to redirect to.
@@ -83,6 +102,18 @@ public abstract class AbstractController
     }
 
     /**
+     * Handles service exceptions.
+     *
+     * @param ex The service exception that occured.
+     * @return A view to display informations about the exception.
+     */
+    @ExceptionHandler(ServiceException.class)
+    public ModelAndView exceptionHandler(ServiceException ex)
+    {
+        return this.renderException(ex, true);
+    }
+
+    /**
      * Handles exceptions that haven't been caught yet.
      *
      * @param ex The exception that occured.
@@ -91,12 +122,7 @@ public abstract class AbstractController
     @ExceptionHandler(Exception.class)
     public ModelAndView exceptionHandler(Exception ex)
     {
-        // Build model
-        ModelMap model = new ModelMap();
-
-        model.addAttribute("exception", ex);
-
-        return this.render("common/error", model);
+        return this.renderException(ex, false);
     }
 
     /**
