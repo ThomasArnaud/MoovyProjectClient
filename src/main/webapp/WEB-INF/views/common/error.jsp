@@ -30,9 +30,9 @@
                             <c:out value="${exception.message}" />
                         </p>
                     </div>
-                    <div class="clearfix"></div>
-                    <h3>Pile d'appels</h3>
                     <c:if test="${not empty exception.stackTrace && fn:length(exception.stackTrace) gt 0}">
+                        <div class="clearfix"></div>
+                        <h3>Pile d'appels</h3>
                         <ol>
                             <c:forEach items="${exception.stackTrace}" var="item">
                                 <li>

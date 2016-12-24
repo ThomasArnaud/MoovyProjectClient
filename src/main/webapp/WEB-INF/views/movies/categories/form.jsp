@@ -5,11 +5,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<c:set var="_page_current" value="movies_categories_add" scope="request" />
 <t:layout>
-    <jsp:attribute name="_page_title">Moovy &raquo; Films &raquo; Catégories &raquo; Ajouter une catégorie</jsp:attribute>
+    <jsp:attribute name="_page_title">Moovy &raquo; Films &raquo; Catégories &raquo; ${_page_title}</jsp:attribute>
     <jsp:attribute name="body_title">
-        Ajouter une catégorie
+        ${_body_title}
         <small>Films</small>
     </jsp:attribute>
     <jsp:body>
@@ -17,23 +16,10 @@
             <div class="box-body">
                 <c:url value="/movies/categories/submit" var="_url" />
                 <form:form method="post" action="${fn:escapeXml(_url)}" modelAttribute="category" cssClass="form-horizontal">
-                    <input type="hidden" name="_is_new" value="1" />
-                    <spring:bind path="code">
-                        <div class="form-group ${status.error ? "has-error" : ""}">
-                            <form:label path="code" for="code" cssClass="control-label col-sm-2">
-                                Code*
-                            </form:label>
-                            <div class="col-sm-10">
-                                <form:input
-                                    path="code"
-                                    type="text"
-                                    cssClass="form-control"
-                                    id="code"
-                                />
-                                <form:errors path="code" cssClass="help-block" />
-                            </div>
-                        </div>
-                    </spring:bind>
+                    <c:if test="${empty category.id || category.id eq 0}">
+                        <input type="hidden" name="_is_new" value="1" />
+                    </c:if>
+                    <form:input path="id" type="hidden" />
                     <spring:bind path="name">
                         <div class="form-group ${status.error ? "has-error" : ""}">
                             <form:label path="name" for="name" cssClass="control-label col-sm-2">

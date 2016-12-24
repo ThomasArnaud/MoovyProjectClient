@@ -29,7 +29,6 @@
                 $("#releaseDate").datepicker({
                     language: "fr"
                 });
-
                 $directorsSelect.select2();
                 $categoriesSelect.select2();
 
@@ -193,7 +192,7 @@
                                     id="categories"
                                     multiple="multiple"
                                 >
-                                    <form:options items="${categoriesList}" itemValue="code" itemLabel="name" />
+                                    <form:options items="${categoriesList}" itemValue="id" itemLabel="name" />
                                 </form:select>
                                 <form:errors path="categories" cssClass="help-block" />
                             </div>

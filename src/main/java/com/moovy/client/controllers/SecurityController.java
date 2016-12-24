@@ -31,6 +31,14 @@ import java.util.Calendar;
 public class SecurityController extends AbstractController
 {
     /**
+     * {@inheritDoc}
+     */
+    public SecurityController(HttpServletRequest request)
+    {
+        super(request);
+    }
+
+    /**
      * Initializes a binder with validators and editors.
      *
      * @param binder The binder to initialize.
@@ -42,17 +50,9 @@ public class SecurityController extends AbstractController
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public SecurityController(HttpServletRequest request)
-    {
-        super(request);
-    }
-
-    /**
-     * Displays the login form
+     * Displays the login form.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login()
@@ -63,7 +63,7 @@ public class SecurityController extends AbstractController
     /**
      * Handles the login process.
      *
-     * @return
+     * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView doLogin(
@@ -140,7 +140,7 @@ public class SecurityController extends AbstractController
     /**
      * Handles the logging out process.
      *
-     * @return
+     * @return A redirection.
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView doLogout()
@@ -154,7 +154,7 @@ public class SecurityController extends AbstractController
     /**
      * Displays the registration form.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register()
@@ -170,7 +170,7 @@ public class SecurityController extends AbstractController
     /**
      * Handles the registration process.
      *
-     * @return
+     * @return The view to render or a redirection.
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView doRegister(
@@ -188,20 +188,20 @@ public class SecurityController extends AbstractController
         {
             if(!passwordConfirmation.equals(user.getPassword()))
             {
-                result.reject(null, "Votre mot de passe est différent de sa confirmation.");
                 passwordConfirmationError = "Votre mot de passe est différent de sa confirmation.";
+                result.reject(null, passwordConfirmationError);
             }
         }
         else
         {
-            result.reject(null, "Vous devez remplir la confirmation du mot de passe.");
             passwordConfirmationError = "Vous devez remplir la confirmation du mot de passe.";
+            result.reject(null, passwordConfirmationError);
         }
 
         if(!termsAccepted)
         {
-            result.reject(null, "Vous devez accepter les conditions d'utilisation du site.");
             termsAcceptedError = "Vous devez accepter les conditions d'utilisation du site.";
+            result.reject(null, termsAcceptedError);
         }
 
         if(!result.hasErrors())

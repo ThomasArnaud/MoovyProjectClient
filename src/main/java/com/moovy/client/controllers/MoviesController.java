@@ -92,7 +92,7 @@ public class MoviesController extends AbstractController
     @RequiresLogin
     public ModelAndView moviesList()
     {
-        // Set up some fake data
+        // Build model
         ModelMap model = new ModelMap();
         MoviesService moviesService = new MoviesService();
 
@@ -269,9 +269,9 @@ public class MoviesController extends AbstractController
     @RequiresLogin
     public ModelAndView categoriesList()
     {
-        // Set up some fake data
+        // Builod model
         ModelMap model = new ModelMap();
-        CategoriesService categoriesService= new CategoriesService();
+        CategoriesService categoriesService = new CategoriesService();
 
         model.addAttribute("categoriesList", categoriesService.fetchAll());
 
@@ -290,33 +290,39 @@ public class MoviesController extends AbstractController
         // Build model
         ModelMap model = new ModelMap();
 
+        model.addAttribute("_page_current", "movies_categories_add");
+        model.addAttribute("_page_title", "Ajouter une catégorie");
+        model.addAttribute("_body_title", "Ajouter une catégorie");
         model.addAttribute("category", new Category());
 
-        return this.render("movies/categories/add", model);
+        return this.render("movies/categories/form", model);
     }
 
     /**
      * Displays the form to edit a category.
      *
-     * @param code The category's code.
+     * @param id The category's id.
      * @return The view to render or a redirection.
      */
-    @RequestMapping(value = "/movies/categories/edit/{code}", method = RequestMethod.GET)
+    @RequestMapping(value = "/movies/categories/edit/{id}", method = RequestMethod.GET)
     @RequiresLogin
-    public ModelAndView categoriesEdit(@PathVariable String code)
+    public ModelAndView categoriesEdit(@PathVariable int id)
     {
         // Initialize vars
         CategoriesService categoriesService = new CategoriesService();
-        Category category = categoriesService.fetch(code);
+        Category category = categoriesService.fetch(id);
 
         if(category != null)
         {
             // Build model
             ModelMap model = new ModelMap();
 
+            model.addAttribute("_page_current", "movies_categories_edit");
+            model.addAttribute("_page_title", "Éditer une catégorie");
+            model.addAttribute("_body_title", "Éditer une catégorie");
             model.addAttribute("category", category);
 
-            return this.render("movies/categories/edit", model);
+            return this.render("movies/categories/form", model);
         }
         else
         {
@@ -324,8 +330,8 @@ public class MoviesController extends AbstractController
             this.addFlash(
                 "danger",
                 String.format(
-                    "Il n'existe aucune catégorie ayant pour code <strong>%s</strong>.",
-                    code
+                    "Il n'existe aucune catégorie ayant pour identifiant <strong>%s</strong>.",
+                    id
                 )
             );
 
@@ -368,25 +374,28 @@ public class MoviesController extends AbstractController
             // Build model
             ModelMap model = new ModelMap();
 
+            model.addAttribute("_page_current", isNew ? "movies_categories_add" : "movies_categories_edit");
+            model.addAttribute("_page_title", isNew ? "Ajouter une catégorie" : "Éditer une catégorie");
+            model.addAttribute("_body_title", isNew ? "Ajouter une catégorie" : "Éditer une catégorie");
             model.addAttribute("category", category);
 
-            return this.render("movies/categories/" + (isNew ? "add" : "edit"), model);
+            return this.render("movies/categories/form", model);
         }
     }
 
     /**
      * Handles the deletion of a single category.
      *
-     * @param code The category's code.
+     * @param id The category's id.
      * @return A redirection.
      */
-    @RequestMapping(value = "/movies/categories/delete/{code}", method = RequestMethod.GET)
+    @RequestMapping(value = "/movies/categories/delete/{id}", method = RequestMethod.GET)
     @RequiresLogin
-    public ModelAndView categoriesDelete(@PathVariable String code)
+    public ModelAndView categoriesDelete(@PathVariable int id)
     {
         // Initialize vars
         CategoriesService categoriesService = new CategoriesService();
-        Category category = categoriesService.fetch(code);
+        Category category = categoriesService.fetch(id);
 
         if(category != null)
         {
@@ -407,8 +416,8 @@ public class MoviesController extends AbstractController
             this.addFlash(
                 "success",
                 String.format(
-                    "Il n'existe aucune catégorie ayant pour code <strong>%s</strong>.",
-                    code
+                    "Il n'existe aucune catégorie ayant pour identifiant <strong>%s</strong>.",
+                    id
                 )
             );
         }

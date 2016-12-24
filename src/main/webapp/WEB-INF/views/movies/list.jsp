@@ -29,11 +29,6 @@
                         orderable: false
                     }]
                 });
-
-                // Set up tooltips
-                $("[data-tooltip]").tooltip({
-                    container: "body"
-                });
             });
         </script>
     </jsp:attribute>

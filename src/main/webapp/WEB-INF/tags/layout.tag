@@ -62,21 +62,6 @@
                                             <small>Membre depuis <fmt:formatDate value="${_user.createdAt}" /></small>
                                         </p>
                                     </li>
-                                    <%--
-                                    <li class="user-body">
-                                        <div class="row">
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Followers</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Sales</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Friends</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    --%>
                                     <li class="user-footer">
                                         <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat disabled" title="L'édition de profil sera disponible dans une prochaine version.">

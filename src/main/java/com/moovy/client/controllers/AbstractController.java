@@ -65,7 +65,7 @@ public abstract class AbstractController
             model = new ModelMap();
         }
 
-        // Add required vars to the model
+        // Add isRequired vars to the model
         model.addAttribute("_user", this.getUser());
         model.addAttribute("_flashMessages", this.getAndClearFlashList());
 
@@ -75,7 +75,7 @@ public abstract class AbstractController
     /**
      * Renders a view to display an exception's details.
      *
-     * @param ex The exception that occured.
+     * @param ex The exception that occurred.
      * @param isServerSide {@code true} if the error happened server-side, {@code false} otherwise.
      * @return The view to render.
      */
@@ -104,8 +104,8 @@ public abstract class AbstractController
     /**
      * Handles service exceptions.
      *
-     * @param ex The service exception that occured.
-     * @return A view to display informations about the exception.
+     * @param ex The service exception that occurred.
+     * @return A view to display information about the exception.
      */
     @ExceptionHandler(ServiceException.class)
     public ModelAndView exceptionHandler(ServiceException ex)
@@ -116,8 +116,8 @@ public abstract class AbstractController
     /**
      * Handles exceptions that haven't been caught yet.
      *
-     * @param ex The exception that occured.
-     * @return A view to display informations about the exception.
+     * @param ex The exception that occurred.
+     * @return A view to display information about the exception.
      */
     @ExceptionHandler(Exception.class)
     public ModelAndView exceptionHandler(Exception ex)
@@ -179,13 +179,10 @@ public abstract class AbstractController
      */
     protected void addFlash(String type, String contents)
     {
-        // Initialize vars
-        HttpSession session = this.request.getSession();
-        List<Flash> flashList = this.getFlashList();
-
         // Add the flash message and memorize the new list
+        List<Flash> flashList = this.getFlashList();
         flashList.add(new Flash(type, contents));
-        session.setAttribute("_flashes", flashList);
+        this.request.getSession().setAttribute("_flashes", flashList);
     }
 
     /**

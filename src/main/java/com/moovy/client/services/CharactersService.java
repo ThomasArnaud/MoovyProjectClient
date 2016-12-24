@@ -15,9 +15,10 @@ import java.util.List;
 public class CharactersService extends AbstractService
 {
     /**
+     * Fetches a movie's list of characters.
      *
-     * @param movieId
-     * @return
+     * @param movieId The movie's id.
+     * @return The list of characters.
      */
     public List<Character> fetchByMovieId(int movieId)
     {
@@ -29,10 +30,10 @@ public class CharactersService extends AbstractService
     }
 
     /**
+     * Saves a movie's list of characters.
      *
-     * @param movieId
-     * @param characters
-     * @return
+     * @param movieId The movie's id.
+     * @param characters The list of characters.
      */
     public void save(int movieId, List<Character> characters)
     {

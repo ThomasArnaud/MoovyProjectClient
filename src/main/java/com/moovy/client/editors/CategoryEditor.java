@@ -10,23 +10,23 @@ import java.beans.PropertyEditorSupport;
  * @author Alexis Rabilloud (alexis.rabilloud@etu.univ-lyon1.fr)
  * @see <a href="http://stackoverflow.com/questions/12875299/spring-mvc-formselect-tag">http://stackoverflow.com/questions/12875299/spring-mvc-formselect-tag</a>
  */
-//@Component
 public class CategoryEditor extends PropertyEditorSupport
 {
     /**
-     * An instance of the directors' service to fetch them.
+     * An instance of the categories' service to fetch them.
      */
     protected CategoriesService categoriesService = new CategoriesService();
 
     /**
-     * Transforms an input string containing a director's id into a director instance.
+     * Transforms an input string containing a category's id into a category instance.
      *
      * @param input The input string.
+     * @throws NumberFormatException If the string can't be parsed as an integer.
      */
     @Override
     public void setAsText(String input)
     throws NumberFormatException
     {
-         this.setValue(this.categoriesService.fetch(input));
+         this.setValue(this.categoriesService.fetch(Integer.parseInt(input)));
     }
 }

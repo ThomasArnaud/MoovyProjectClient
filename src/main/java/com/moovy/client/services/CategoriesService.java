@@ -17,14 +17,14 @@ public class CategoriesService extends AbstractService
     /**
      * Fetches a single category from the database thanks to its code.
      *
-     * @param code The category's id.
+     * @param id The category's id.
      * @return The wanted category, or {@code null} if there are no matching categories.
      */
-    public Category fetch(String code)
+    public Category fetch(int id)
     {
         // Build URI
         UriBuilder uriBuilder = RestUtils.getUriBuilder();
-        uriBuilder.path("/categories/" + code);
+        uriBuilder.path("/categories/" + id);
 
         return this.doGet(uriBuilder.build(), Category.class);
     }
@@ -52,9 +52,17 @@ public class CategoriesService extends AbstractService
     {
         // Build URI
         UriBuilder uriBuilder = RestUtils.getUriBuilder();
-        uriBuilder.path("/categories");
 
-        this.doPut(uriBuilder.build(), category).close();
+        if(category.getId() != 0)
+        {
+            uriBuilder.path("/categories/" + category.getId());
+            this.doPut(uriBuilder.build(), category).close();
+        }
+        else
+        {
+            uriBuilder.path("/categories");
+            this.doPost(uriBuilder.build(), category).close();
+        }
     }
 
     /**
@@ -66,7 +74,7 @@ public class CategoriesService extends AbstractService
     {
         // Build URI
         UriBuilder uriBuilder = RestUtils.getUriBuilder();
-        uriBuilder.path("/categories/" + category.getCode());
+        uriBuilder.path("/categories/" + category.getId());
 
         this.doDelete(uriBuilder.build()).close();
     }

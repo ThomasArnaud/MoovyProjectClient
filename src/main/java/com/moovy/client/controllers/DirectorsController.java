@@ -50,13 +50,13 @@ public class DirectorsController extends AbstractController
     /**
      * Displays a list of directors.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/directors", method = RequestMethod.GET)
     @RequiresLogin
     public ModelAndView list()
     {
-        // Set up some fake data
+        // Build model
         ModelMap model = new ModelMap();
         DirectorsService directorsService = new DirectorsService();
 
@@ -68,7 +68,7 @@ public class DirectorsController extends AbstractController
     /**
      * Displays the form to add a director.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/directors/add", method = RequestMethod.GET)
     @RequiresLogin
@@ -89,7 +89,7 @@ public class DirectorsController extends AbstractController
      * Displays the form to edit a director.
      *
      * @param id The director's id.
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/directors/edit/{id}", method = RequestMethod.GET)
     @RequiresLogin
@@ -129,7 +129,7 @@ public class DirectorsController extends AbstractController
     /**
      * Handles the submission of a form to add or edit a director.
      *
-     * @return
+     * @return A redirection or the view to render.
      */
     @RequestMapping(value = "/directors/submit", method = RequestMethod.POST)
     @RequiresLogin
@@ -175,7 +175,7 @@ public class DirectorsController extends AbstractController
      * Handles the deletion of a single director.
      *
      * @param id The director's id.
-     * @return
+     * @return A redirection.
      */
     @RequestMapping(value = "/directors/delete/{id}", method = RequestMethod.GET)
     @RequiresLogin

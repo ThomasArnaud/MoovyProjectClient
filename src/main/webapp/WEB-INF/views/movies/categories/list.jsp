@@ -23,7 +23,7 @@
                         url: "https://cdn.datatables.net/plug-ins/1.10.12/i18n/French.json"
                     },
                     columnDefs: [{
-                        targets: 2,
+                        targets: 1,
                         orderable: false
                     }]
                 });
@@ -37,9 +37,6 @@
                     <table class="table table-striped table-hover" id="table-categories">
                         <thead>
                             <tr>
-                                <th>
-                                    Code
-                                </th>
                                 <th>
                                     Nom
                                 </th>
@@ -55,17 +52,14 @@
                                     <c:forEach items="${categoriesList}" var="category">
                                         <tr>
                                             <td>
-                                                <c:out value="${category.code}" />
-                                            </td>
-                                            <td>
                                                 <c:out value="${category.name}" />
                                             </td>
                                             <td class="column-icons">
-                                                <c:url value="/movies/categories/edit/${category.code}" var="_url" />
+                                                <c:url value="/movies/categories/edit/${category.id}" var="_url" />
                                                 <a href="${fn:escapeXml(_url)}">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <c:url value="/movies/categories/delete/${category.code}" var="_url" />
+                                                <c:url value="/movies/categories/delete/${category.id}" var="_url" />
                                                 <a href="${fn:escapeXml(_url)}">
                                                     <i class="fa fa-times"></i>
                                                 </a>
@@ -75,7 +69,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <tr>
-                                        <td colspan="3">
+                                        <td colspan="2">
                                             Il n'existe aucune catégorie dans la base de données.
                                         </td>
                                     </tr>

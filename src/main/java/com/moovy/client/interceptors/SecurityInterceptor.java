@@ -34,7 +34,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter
             RequiresLogin requiresLogin = handlerMethod.getMethodAnnotation(RequiresLogin.class);
 
             // Is the method annotated and does it need the user to be logged in?
-            if(requiresLogin != null && requiresLogin.value())
+            if(requiresLogin != null && requiresLogin.isRequired())
             {
                 User user = (User) request.getSession().getAttribute("_user");
 

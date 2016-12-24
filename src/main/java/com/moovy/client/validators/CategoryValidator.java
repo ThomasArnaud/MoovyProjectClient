@@ -35,7 +35,6 @@ public class CategoryValidator implements Validator
     {
         if(target instanceof Category)
         {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", null, "Vous devez préciser le code.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", null, "Vous devez préciser le nom.");
         }
     }

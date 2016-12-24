@@ -8,7 +8,6 @@
     <tlib-version>2.1</tlib-version>
     <jsp-version>2.0</jsp-version>
     <short-name>Duration functions</short-name>
-    <!-- <uri>https://online-stuff.fr.nf/jsp/jstl/durationFunctions</uri> -->
     <tag>
         <name>formatMinutes</name>
         <tag-class>com.moovy.client.tags.FormatMinutesTag</tag-class>

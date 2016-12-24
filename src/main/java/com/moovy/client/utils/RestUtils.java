@@ -12,7 +12,7 @@ import javax.ws.rs.core.UriBuilder;
 public class RestUtils
 {
     /**
-     *
+     * A single instance of webservices client.
      */
     protected static Client client = ClientBuilder.newClient();
 
@@ -27,8 +27,9 @@ public class RestUtils
     }
 
     /**
+     * Gets the single instance of webservices client.
      *
-     * @return
+     * @return The webservices client.
      */
     public static Client getClient()
     {
@@ -36,7 +37,7 @@ public class RestUtils
     }
 
     /**
-     *
+     * Closes the client's connection and deletes it.
      */
     public static void clearClient()
     {

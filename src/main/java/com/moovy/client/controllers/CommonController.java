@@ -47,7 +47,7 @@ public class CommonController extends AbstractController
     /**
      * Displays the website's terms.
      *
-     * @return The view to render
+     * @return The view to render.
      */
     @RequestMapping(value = "/terms", method = RequestMethod.GET)
     public ModelAndView terms()

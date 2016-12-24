@@ -29,8 +29,9 @@ public class SearchController extends AbstractController
     }
 
     /**
+     * Displays a search's results.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @RequiresLogin

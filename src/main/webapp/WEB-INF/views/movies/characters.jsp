@@ -23,7 +23,7 @@
                 // Initialize vars
                 var $tbody = $("form table tbody");
 
-                //
+                // Customize <select> tags
                 $tbody.find("select").select2({
                     width: "100%",
                     dropdownAutoWidth: true
@@ -78,7 +78,7 @@
                         <form:option value="${movie.director.id}" selected="selected" />
                     </form:select>
                     <form:select path="categories" cssClass="hidden">
-                        <form:options items="${movie.categories}" itemValue="code" itemLabel="name" />
+                        <form:options items="${movie.categories}" itemValue="id" itemLabel="name" />
                     </form:select>
                     <form:errors cssClass="text-red" />
                     <div class="table-responsive">

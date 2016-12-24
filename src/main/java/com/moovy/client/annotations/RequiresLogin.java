@@ -19,5 +19,5 @@ public @interface RequiresLogin
      *
      * @return {@code true} if the user needs to be logged in, {@code false} otherwise.
      */
-    boolean value() default true;
+    boolean isRequired() default true;
 }

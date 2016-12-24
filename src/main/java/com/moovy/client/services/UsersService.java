@@ -17,7 +17,7 @@ import java.util.Map;
 public class UsersService extends AbstractService
 {
     /**
-     * Fetches a single user from the database thanks to its id.
+     * Fetches a single user from the database thanks to their id.
      *
      * @param id The user's id.
      * @return The wanted user, or {@code null} if there are no matching users.

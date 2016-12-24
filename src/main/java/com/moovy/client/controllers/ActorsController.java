@@ -54,13 +54,13 @@ public class ActorsController extends AbstractController
     /**
      * Displays a list of actors.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/actors", method = RequestMethod.GET)
     @RequiresLogin
     public ModelAndView list()
     {
-        // Set up some fake data
+        // Build model
         ModelMap model = new ModelMap();
         ActorsService actorsService = new ActorsService();
 
@@ -72,7 +72,7 @@ public class ActorsController extends AbstractController
     /**
      * Displays the form to add an actor.
      *
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/actors/add", method = RequestMethod.GET)
     @RequiresLogin
@@ -93,7 +93,7 @@ public class ActorsController extends AbstractController
      * Displays the form to edit an actor.
      *
      * @param id The actor's id.
-     * @return
+     * @return The view to render.
      */
     @RequestMapping(value = "/actors/edit/{id}", method = RequestMethod.GET)
     @RequiresLogin
@@ -122,7 +122,7 @@ public class ActorsController extends AbstractController
                 "danger",
                 String.format(
                     "Il n'existe aucun acteur ayant pour identifiant <strong>%d</strong>.",
-                        id
+                    id
                 )
             );
 
@@ -133,7 +133,7 @@ public class ActorsController extends AbstractController
     /**
      * Handles the submission of a form to add or edit an actor.
      *
-     * @return
+     * @return A redirection or the view to render.
      */
     @RequestMapping(value = "/actors/submit", method = RequestMethod.POST)
     @RequiresLogin
@@ -179,7 +179,7 @@ public class ActorsController extends AbstractController
      * Handles the deletion of a single actor.
      *
      * @param id The actor's id.
-     * @return
+     * @return A redirection.
      */
     @RequestMapping(value = "/actors/delete/{id}", method = RequestMethod.GET)
     @RequiresLogin
@@ -191,7 +191,7 @@ public class ActorsController extends AbstractController
 
         if(actor != null)
         {
-            // Delete director
+            // Delete actor
             actorsService.delete(actor);
 
             // Then, register a flash message

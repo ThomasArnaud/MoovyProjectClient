@@ -10,7 +10,6 @@ import java.beans.PropertyEditorSupport;
  * @author Alexis Rabilloud (alexis.rabilloud@etu.univ-lyon1.fr)
  * @see <a href="http://stackoverflow.com/questions/12875299/spring-mvc-formselect-tag">http://stackoverflow.com/questions/12875299/spring-mvc-formselect-tag</a>
  */
-//@Component
 public class DirectorEditor extends PropertyEditorSupport
 {
     /**

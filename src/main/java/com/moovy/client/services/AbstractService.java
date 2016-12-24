@@ -35,9 +35,9 @@ public abstract class AbstractService
         // Perform request
         Response response = AbstractService.returnUnlessError(
             target
-                .request()
-                .accept(MediaType.APPLICATION_JSON)
-                .get()
+            .request()
+            .accept(MediaType.APPLICATION_JSON_TYPE)
+            .get()
         );
         T entity = response.readEntity(type);
         response.close();
@@ -63,7 +63,7 @@ public abstract class AbstractService
         Response response = AbstractService.returnUnlessError(
             target
             .request()
-            .accept(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON_TYPE)
             .get()
         );
         T entity = response.readEntity(type);

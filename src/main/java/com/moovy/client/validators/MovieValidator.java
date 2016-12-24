@@ -6,7 +6,9 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
- * @author bruno.
+ * @author Thomas Arnaud (thomas.arnaud@etu.univ-lyon1.fr)
+ * @author Bruno Buiret (bruno.buiret@etu.univ-lyon1.fr)
+ * @author Alexis Rabilloud (alexis.rabilloud@etu.univ-lyon1.fr)
  */
 public class MovieValidator implements Validator
 {
@@ -39,6 +41,24 @@ public class MovieValidator implements Validator
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "budget", null, "Vous devez préciser le budget.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "benefit", null, "Vous devez préciser le bénéfice réalisé.");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "director", null, "Vous devez préciser le réalisateur.");
+
+            // More specific validations
+            Movie movie = (Movie) target;
+
+            if(movie.getDuration() < 0)
+            {
+                errors.rejectValue("duration", null, "La durée ne peut pas être négative.");
+            }
+
+            if(movie.getBudget() < 0)
+            {
+                errors.rejectValue("budget", null, "Le budget ne peut pas être négatif.");
+            }
+
+            if(movie.getBenefit() < 0)
+            {
+                errors.rejectValue("benefit", null, "Les bénéfices ne peuvent pas être négatifs.");
+            }
         }
     }
 }

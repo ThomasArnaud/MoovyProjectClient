@@ -94,7 +94,7 @@
                             </div>
                         </spring:bind>
                         <c:if test="${not empty termsAcceptedError}">
-                            <span class="text-red""><c:out value="${termsAcceptedError}" /></span>
+                            <span class="text-red"><c:out value="${termsAcceptedError}" /></span>
                         </c:if>
                         <div class="row">
                             <div class="col-sm-8">

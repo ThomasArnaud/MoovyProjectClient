@@ -19,7 +19,17 @@ public class FormatMinutesTag extends SimpleTagSupport
     protected int value;
 
     /**
-     * Prints the value formatted in hours and minutes.
+     * Sets the value, in minutes, to output.
+     *
+     * @param value The value.
+     */
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+
+    /**
+     * Prints the isRequired formatted in hours and minutes.
      *
      * @throws JspException If a JSP error happens.
      * @throws IOException If a I/O error happens.
@@ -34,29 +44,21 @@ public class FormatMinutesTag extends SimpleTagSupport
 
         if(this.value > 60)
         {
-            stringBuilder.append((int) (value / 60));
+            stringBuilder.append((int) (this.value / 60));
             stringBuilder.append("h");
 
-            value = value % 60;
+            this.value = this.value % 60;
         }
-        else if(value < 0)
+        else if(this.value < 0)
         {
-            throw new RuntimeException("A duration cannot be expressed with a negative number of minutes.");
+            writer.println(this.value);
+
+            return;
         }
 
-        stringBuilder.append(value);
+        stringBuilder.append(this.value);
         stringBuilder.append("min");
 
         writer.println(stringBuilder.toString());
-    }
-
-    /**
-     * Sets the value, in minutes, to output.
-     *
-     * @param value The value.
-     */
-    public void setValue(int value)
-    {
-        this.value = value;
     }
 }
