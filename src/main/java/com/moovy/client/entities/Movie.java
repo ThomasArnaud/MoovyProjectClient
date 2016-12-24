@@ -17,14 +17,9 @@ public class Movie
     private Date releaseDate;
     private int budget;
     private int benefit;
-    private List<Character> characters;
+    private List<Character> characters = new ArrayList<>(0);
     private Director director;
-    private List<Category> categories;
-
-    public Movie()
-    {
-        this.characters = new ArrayList<>();
-    }
+    private List<Category> categories = new ArrayList<>(0);
 
     public int getId()
     {

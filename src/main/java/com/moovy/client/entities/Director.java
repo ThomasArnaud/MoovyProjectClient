@@ -2,6 +2,7 @@ package com.moovy.client.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class Director
     private int id;
     private String lastName;
     private String firstName;
-    private List<Movie> directedMovies;
+    private List<Movie> directedMovies = new ArrayList<>(0);
 
     public int getId()
     {

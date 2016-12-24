@@ -3,6 +3,7 @@ package com.moovy.client.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Actor
     private String firstName;
     private Date birthDate;
     private Date deathDate;
-    private List<Character> playedCharacters;
+    private List<Character> playedCharacters = new ArrayList<>(0);
 
     public int getId()
     {

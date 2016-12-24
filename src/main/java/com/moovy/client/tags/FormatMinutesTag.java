@@ -56,7 +56,10 @@ public class FormatMinutesTag extends SimpleTagSupport
             return;
         }
 
-        stringBuilder.append(this.value);
+        stringBuilder.append(String.format(
+            "%1$02d",
+            this.value
+        ));
         stringBuilder.append("min");
 
         writer.println(stringBuilder.toString());

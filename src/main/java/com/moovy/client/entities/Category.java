@@ -1,5 +1,6 @@
 package com.moovy.client.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class Category
 {
     private int id;
     private String name;
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>(0);
 
     public int getId()
     {

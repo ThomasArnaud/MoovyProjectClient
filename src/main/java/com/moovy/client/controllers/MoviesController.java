@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -448,6 +449,7 @@ public class MoviesController extends AbstractController
             CharactersService charactersService = new CharactersService();
 
             movie.setCharacters(charactersService.fetchByMovieId(movieId));
+            System.out.println(movie.getCharacters());
 
             model.addAttribute("movie", movie);
             model.addAttribute("actorsList", actorsService.fetchAll());
@@ -484,6 +486,13 @@ public class MoviesController extends AbstractController
         @PathVariable("movieId") int movieId
     )
     {
+        //  Is it necessary to fix the characters' list because Java/Spring doesn't know it has to
+        // fix the list if there is an item missing?
+        if(movie.getCharacters().size() > 0)
+        {
+            movie.getCharacters().removeIf(character -> character.getId() == null);
+        }
+
         // Perform additional validation for the new characters
         // Is there new characters to add?
         if(newActors != null && newCharacters != null)
@@ -516,6 +525,7 @@ public class MoviesController extends AbstractController
                 // Build new characters if needed
                 if(newCharactersNumber > 0)
                 {
+                    System.out.println("Nouveaux personnages");
                     ActorsService actorsService = new ActorsService();
 
                     for(i = 0; i < newCharactersNumber; i++)
@@ -535,9 +545,39 @@ public class MoviesController extends AbstractController
                 // Do actors appear several times?
                 Map<Actor, Integer> actorsCount = new HashMap<>();
 
-                for(Character character : movie.getCharacters())
+                System.out.println(movie.getId());
+                System.out.println(movie.getTitle());
+                System.out.println(movie.getCharacters());
+
+                try
                 {
-                    actorsCount.put(character.getId().getActor(), actorsCount.getOrDefault(character.getId().getActor(), 0) + 1);
+                    for(Character character : movie.getCharacters())
+                    {
+                        System.out.println("#" + character.getId() + " " + character.getName());
+                        System.out.println();
+
+                        actorsCount.put(
+                            character
+                                .getId()
+                                .getActor(),
+                            actorsCount.getOrDefault(
+                                character
+                                    .getId()
+                                    .getActor(),
+                                0
+                            ) + 1
+                        );
+                    }
+                }
+                catch(Exception e)
+                {
+                    System.out.println(e.getClass().getSimpleName());
+                    System.out.println(e.toString());
+                    System.out.println(e.getMessage());
+                    System.out.println(e.getLocalizedMessage());
+                    System.out.println(Arrays.toString(e.getStackTrace()));
+
+                    throw e;
                 }
 
                 StringBuilder duplicatedActorsBuilder = new StringBuilder();
